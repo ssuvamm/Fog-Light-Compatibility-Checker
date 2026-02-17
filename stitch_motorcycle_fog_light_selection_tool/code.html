@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MotoLight - Fog Light Selection Tool</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ffb200",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#12100a",
+                        "surface-dark": "#1c1a14",
+                        "border-dark": "#3a3427",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .progress-bar { transition: width 0.3s ease; }
+        .glass-card {
+            background: rgba(28, 26, 20, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 178, 0, 0.1);
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #12100a; }
+        ::-webkit-scrollbar-thumb { background: #3a3427; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #ffb200; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-white font-display antialiased overflow-x-hidden">
+<!-- Sticky Progress Header -->
+<nav class="fixed top-0 left-0 w-full z-50 bg-background-dark/90 backdrop-blur-md border-b border-border-dark">
+<div class="max-w-xl mx-auto px-4 py-3 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">electric_bolt</span>
+<span class="font-bold tracking-tight text-sm uppercase italic">MotoLight <span class="text-primary">Tool</span></span>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="text-[10px] uppercase tracking-widest text-primary font-bold">Progress</span>
+<div class="w-24 h-1.5 bg-border-dark rounded-full overflow-hidden">
+<div class="progress-bar h-full bg-primary" style="width: 15%;"></div>
+</div>
+</div>
+</div>
+</nav>
+<main class="max-w-xl mx-auto pt-16 pb-20 px-4 space-y-12">
+<!-- Section 1: Hero -->
+<section class="relative pt-8 pb-4 overflow-hidden">
+<div class="absolute -right-20 -top-10 opacity-10 pointer-events-none">
+<span class="material-symbols-outlined text-[240px] text-primary">settings_backup_restore</span>
+</div>
+<h1 class="text-4xl font-black leading-tight tracking-tight mb-4 text-balance">
+                Stop Overloading Your <span class="text-primary italic">Motorcycle.</span>
+</h1>
+<p class="text-lg text-white/90 font-medium mb-2">
+                Most riders choose fog lights based on watts, not electrical capacity.
+            </p>
+<p class="text-sm text-white/60 mb-8 border-l-2 border-primary pl-4 py-1 italic">
+                Your battery does not generate power. Your alternator does.
+            </p>
+<div class="grid grid-cols-1 gap-3 mb-8">
+<div class="flex items-center gap-3 p-3 rounded-lg bg-surface-dark border border-border-dark">
+<span class="material-symbols-outlined text-red-500">battery_alert</span>
+<span class="text-sm font-medium">Battery drain during idle</span>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg bg-surface-dark border border-border-dark">
+<span class="material-symbols-outlined text-orange-500">thermostat</span>
+<span class="text-sm font-medium">Regulator overheating</span>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg bg-surface-dark border border-border-dark">
+<span class="material-symbols-outlined text-primary">error</span>
+<span class="text-sm font-medium">Stator damage (Permanent)</span>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg bg-surface-dark border border-border-dark">
+<span class="material-symbols-outlined text-blue-400">bolt</span>
+<span class="text-sm font-medium">Voltage instability</span>
+</div>
+</div>
+<button class="w-full py-4 bg-primary text-background-dark font-black rounded-xl text-lg shadow-lg shadow-primary/20 flex items-center justify-center gap-2 active:scale-[0.98] transition-all">
+                Check Your Safe Watt Capacity
+                <span class="material-symbols-outlined">arrow_downward</span>
+</button>
+</section>
+<!-- Section 2: Education -->
+<section class="space-y-6">
+<h2 class="text-xl font-bold flex items-center gap-2">
+<span class="w-1.5 h-6 bg-primary rounded-full"></span>
+                How Motorcycle Power Actually Works
+            </h2>
+<div class="relative flex justify-between items-center py-8">
+<!-- Connectors -->
+<div class="absolute top-1/2 left-0 w-full h-[2px] bg-border-dark -translate-y-1/2 z-0"></div>
+<div class="relative z-10 flex flex-col items-center gap-2 group">
+<div class="size-12 rounded-full bg-surface-dark border-2 border-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">cyclone</span>
+</div>
+<span class="text-[10px] uppercase font-bold text-center leading-none">Alternator</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="size-10 rounded-full bg-surface-dark border border-border-dark flex items-center justify-center">
+<span class="material-symbols-outlined text-white/60">settings_input_component</span>
+</div>
+<span class="text-[10px] uppercase font-bold text-center leading-none">Regulator</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="size-12 rounded-full bg-surface-dark border-2 border-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">two_wheeler</span>
+</div>
+<span class="text-[10px] uppercase font-bold text-center leading-none">System</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="size-10 rounded-full bg-surface-dark border border-border-dark flex items-center justify-center">
+<span class="material-symbols-outlined text-white/60">battery_charging_full</span>
+</div>
+<span class="text-[10px] uppercase font-bold text-center leading-none">Storage</span>
+</div>
+</div>
+<p class="text-xs text-center text-white/50 px-8">The alternator must provide enough power for both the bike's essentials and your accessories. The battery is just the "tank".</p>
+</section>
+<!-- Section 3: Tool Start -->
+<section class="space-y-6">
+<h2 class="text-xl font-bold flex items-center gap-2">
+<span class="w-1.5 h-6 bg-primary rounded-full"></span>
+                Configure Your Vehicle
+            </h2>
+<div class="space-y-4">
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-wider text-white/60">Motorcycle Make</label>
+<select class="w-full bg-surface-dark border border-border-dark rounded-xl px-4 py-3 focus:ring-primary focus:border-primary text-white">
+<option>Select Manufacturer</option>
+<option>BMW Motorrad</option>
+<option>Honda</option>
+<option>KTM</option>
+<option>Kawasaki</option>
+</select>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-wider text-white/60">Model</label>
+<select class="w-full bg-surface-dark border border-border-dark rounded-xl px-4 py-3 focus:ring-primary focus:border-primary text-white">
+<option>Model</option>
+<option>R1250GS</option>
+<option>Africa Twin</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-wider text-white/60">Year</label>
+<select class="w-full bg-surface-dark border border-border-dark rounded-xl px-4 py-3 focus:ring-primary focus:border-primary text-white">
+<option>Year</option>
+<option>2023</option>
+<option>2024</option>
+</select>
+</div>
+</div><div class="space-y-2 pt-2">
+<label class="text-xs font-bold uppercase tracking-wider text-white/60">Existing Accessory Load (Watts)</label>
+<input class="w-full bg-surface-dark border border-border-dark rounded-xl px-4 py-3 focus:ring-primary focus:border-primary text-white" placeholder="0" type="number"/>
+<p class="text-[10px] text-white/40 italic">If you already have auxiliary lights or accessories installed, enter their total power consumption.</p>
+</div>
+</div>
+<!-- Result Card -->
+<div class="glass-card rounded-xl p-6 border-l-4 border-l-primary relative overflow-hidden">
+<div class="absolute right-0 top-0 p-4 opacity-5">
+<span class="material-symbols-outlined text-8xl">analytics</span>
+</div>
+<h3 class="text-xs uppercase font-black text-primary mb-4 tracking-widest">Your Electrical Capacity</h3>
+<div class="grid grid-cols-2 gap-y-6">
+<div>
+<p class="text-[10px] uppercase text-white/40 font-bold mb-1">Alternator Output</p>
+<p class="text-xl font-black">510 <span class="text-sm font-normal text-white/60">Watts</span></p>
+</div>
+<div>
+<p class="text-[10px] uppercase text-white/40 font-bold mb-1">Stock Load</p>
+<p class="text-xl font-black">340 <span class="text-sm font-normal text-white/60">Watts</span></p>
+</div>
+<div>
+<p class="text-[10px] uppercase text-white/40 font-bold mb-1">Safe Margin</p>
+<p class="text-xl font-black text-primary">+170 <span class="text-sm font-normal text-white/60">Watts</span></p>
+</div>
+<div>
+<p class="text-[10px] uppercase text-white/40 font-bold mb-1">Recommended Max</p>
+<p class="text-xl font-black">60 <span class="text-sm font-normal text-white/60">Watts</span></p>
+</div>
+</div>
+<div class="mt-6 pt-4 border-t border-border-dark">
+<div class="flex justify-between items-center text-[10px] font-bold uppercase mb-2">
+<span>Load Status</span>
+<span class="text-primary">Optimized</span>
+</div>
+<div class="h-2 w-full bg-white/10 rounded-full">
+<div class="h-full bg-primary rounded-full" style="width: 65%;"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 4 & 5: Conditions -->
+<section class="space-y-8">
+<h2 class="text-xl font-bold flex items-center gap-2">
+<span class="w-1.5 h-6 bg-primary rounded-full"></span>
+                Riding Conditions
+            </h2>
+<div class="space-y-6">
+<!-- Fog Frequency -->
+<div class="space-y-3">
+<label class="text-sm font-bold">Fog Frequency</label>
+<div class="grid grid-cols-3 gap-2">
+<button class="py-3 px-2 border border-primary bg-primary/10 text-primary rounded-lg text-xs font-bold">Frequently</button>
+<button class="py-3 px-2 border border-border-dark text-white/60 rounded-lg text-xs font-bold">Occasionally</button>
+<button class="py-3 px-2 border border-border-dark text-white/60 rounded-lg text-xs font-bold">No</button>
+</div>
+</div>
+<!-- Riding Speed -->
+<div class="space-y-3">
+<label class="text-sm font-bold">Average Riding Speed</label>
+<div class="grid grid-cols-2 gap-2">
+<button class="py-3 border border-border-dark text-white/60 rounded-lg text-xs font-bold">0-50 km/h</button>
+<button class="py-3 border border-primary bg-primary/10 text-primary rounded-lg text-xs font-bold">50-80 km/h</button>
+<button class="py-3 border border-border-dark text-white/60 rounded-lg text-xs font-bold">80-110 km/h</button>
+<button class="py-3 border border-border-dark text-white/60 rounded-lg text-xs font-bold">110+ km/h</button>
+</div>
+</div>
+<!-- Riding Purpose -->
+<div class="space-y-3">
+<label class="text-sm font-bold">Primary Terrain</label>
+<div class="flex flex-wrap gap-2">
+<button class="px-4 py-2 rounded-full border border-border-dark text-xs font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">location_city</span> City
+                        </button>
+<button class="px-4 py-2 rounded-full border border-primary bg-primary text-background-dark text-xs font-black flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">directions_car</span> Highway
+                        </button>
+<button class="px-4 py-2 rounded-full border border-border-dark text-xs font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">shuffle</span> Mixed
+                        </button>
+<button class="px-4 py-2 rounded-full border border-border-dark text-xs font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">terrain</span> Hilly
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 6: Vision Accordion -->
+<section class="space-y-4">
+<div class="rounded-xl border border-border-dark bg-surface-dark overflow-hidden transition-all">
+<button class="w-full p-4 flex items-center justify-between text-left group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">visibility</span>
+<span class="font-bold">Do You Wear Glasses for Distance?</span>
+</div>
+<span class="material-symbols-outlined transition-transform group-hover:translate-y-1">expand_more</span>
+</button>
+<div class="px-4 pb-6 space-y-4">
+<p class="text-xs text-white/60">Distance vision affects how your eyes perceive light patterns. Provide your power for an optimized beam angle recommendation.</p>
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-1">
+<label class="text-[10px] font-bold uppercase text-white/40">Left Eye (OS)</label>
+<input class="w-full bg-background-dark border border-border-dark rounded-lg px-3 py-2 text-sm focus:ring-primary focus:border-primary" placeholder="-1.25" type="text"/>
+</div>
+<div class="space-y-1">
+<label class="text-[10px] font-bold uppercase text-white/40">Right Eye (OD)</label>
+<input class="w-full bg-background-dark border border-border-dark rounded-lg px-3 py-2 text-sm focus:ring-primary focus:border-primary" placeholder="-1.50" type="text"/>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 7: Recommendation -->
+<section class="pt-4">
+<div class="relative bg-gradient-to-br from-primary/20 to-surface-dark border-2 border-primary rounded-xl overflow-hidden p-6 shadow-2xl">
+<div class="absolute top-0 right-0 bg-primary text-background-dark px-4 py-1 font-black text-[10px] uppercase rounded-bl-xl">
+                    Top Performance Choice
+                </div>
+<div class="flex flex-col gap-6">
+<div class="flex gap-6 items-start">
+<div class="w-1/2 aspect-square bg-background-dark rounded-lg flex items-center justify-center p-4 border border-border-dark">
+<img alt="High performance LED fog light unit" class="w-full h-auto" data-alt="High performance LED fog light unit" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJvrdeQpDjQLtrTWi2vpG7YSo2wpjuHRwdKz3Y0OwZVtyGbAlZIIciF_a492zSj22WvLhCEN6DWxAHzlnebtm6eGOQFowebe7SLyP2ACPoeCG9Wh7dzYczYX5_ExYDivN6O4EK3ZTDvUiKitkGSYhji0qWk99P5mcgBUfEZSlIjxGvfeWEcD6aNsyBeunXvI02UWKuZDqFeRA9-2ta8N36y1CD-Ab3BNZbqzT6mAIObhoHn8MlTgdGsSnH6QOvQz4chBwPk1wr12pP"/>
+</div>
+<div class="w-1/2 space-y-2">
+<h3 class="text-2xl font-black italic uppercase leading-none">X1 Plus <span class="text-primary">Pro</span></h3>
+<p class="text-xs text-white/60">Optimized for 50-80 km/h Highway cruises.</p>
+<div class="flex gap-1 pt-2">
+<span class="material-symbols-outlined text-primary text-sm">star</span>
+<span class="material-symbols-outlined text-primary text-sm">star</span>
+<span class="material-symbols-outlined text-primary text-sm">star</span>
+<span class="material-symbols-outlined text-primary text-sm">star</span>
+<span class="material-symbols-outlined text-primary text-sm">star_half</span>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<span class="text-xs font-bold uppercase">Beam Color Toggle</span>
+<div class="flex bg-background-dark p-1 rounded-full border border-border-dark">
+<button class="px-4 py-1 bg-primary text-background-dark rounded-full text-[10px] font-black uppercase">Amber</button>
+<button class="px-4 py-1 text-white/40 rounded-full text-[10px] font-black uppercase">White</button><button class="w-full mt-3 py-3 bg-[#25D366] text-white font-bold rounded-xl text-sm shadow-lg shadow-[#25D366]/20 flex items-center justify-center gap-2 hover:brightness-110 active:scale-95 transition-all">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.63 1.438h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path>
+</svg>
+    Send Config to Lumevo via WhatsApp
+</button>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-3 bg-background-dark rounded-lg border border-border-dark text-center">
+<p class="text-[9px] text-white/40 uppercase font-bold">Actual Load</p>
+<p class="text-lg font-bold">40 Watts</p>
+</div>
+<div class="p-3 bg-background-dark rounded-lg border border-border-dark text-center">
+<p class="text-[9px] text-white/40 uppercase font-bold">Lumens</p>
+<p class="text-lg font-bold">8,500 LM</p>
+</div>
+</div>
+</div>
+<div class="space-y-3 pt-2 border-t border-border-dark/50">
+<h4 class="text-[10px] font-black uppercase tracking-widest text-primary/80">Technical Specifications</h4>
+<div class="grid grid-cols-2 gap-x-6 gap-y-3">
+<div class="flex flex-col">
+<span class="text-[9px] text-white/40 uppercase font-bold">Lumens</span>
+<span class="text-xs font-semibold">8,500 LM (Per Pair)</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[9px] text-white/40 uppercase font-bold">Color Temp</span>
+<span class="text-xs font-semibold">3000K (Amber) / 6000K (White)</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[9px] text-white/40 uppercase font-bold">Waterproof Rating</span>
+<span class="text-xs font-semibold">IP67 Certified</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[9px] text-white/40 uppercase font-bold">Lifespan</span>
+<span class="text-xs font-semibold">50,000+ Hours</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[9px] text-white/40 uppercase font-bold">Material</span>
+<span class="text-xs font-semibold">Aviation-grade Aluminum</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[9px] text-white/40 uppercase font-bold">Operating Voltage</span>
+<span class="text-xs font-semibold">9V - 36V DC</span>
+</div>
+</div>
+</div><button class="w-full py-4 bg-primary text-background-dark font-black rounded-xl text-lg shadow-xl shadow-primary/30 flex items-center justify-center gap-2 hover:brightness-110 active:scale-95 transition-all">
+                        View Recommended Light
+                        <span class="material-symbols-outlined">shopping_cart</span>
+</button><button class="w-full mt-3 py-3 bg-[#25D366] text-white font-bold rounded-xl text-sm shadow-lg shadow-[#25D366]/20 flex items-center justify-center gap-2 hover:brightness-110 active:scale-95 transition-all">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.63 1.438h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path>
+</svg>
+    Send Config to Lumevo via WhatsApp
+</button>
+</div>
+</div>
+</section>
+<!-- Footer Footer -->
+<footer class="text-center py-10 space-y-4">
+<div class="flex justify-center gap-4 text-white/40">
+<span class="material-symbols-outlined">shield</span>
+<span class="material-symbols-outlined">verified_user</span>
+<span class="material-symbols-outlined">build</span>
+</div>
+<p class="text-[10px] text-white/30 uppercase tracking-[0.2em]">Engineering precision for every ride</p>
+</footer>
+</main>
+</body></html>
