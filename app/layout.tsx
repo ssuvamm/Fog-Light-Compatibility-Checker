@@ -13,9 +13,6 @@ export const metadata: Metadata = {
   title: "MotoLight - Fog Light Selection Tool",
   description:
     "Check safe watt capacity and configure motorcycle fog light recommendations.",
-  alternates: {
-    canonical: "/",
-  },
 };
 
 export default function RootLayout({
