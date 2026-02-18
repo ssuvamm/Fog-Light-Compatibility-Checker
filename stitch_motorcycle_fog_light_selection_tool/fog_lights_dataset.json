@@ -1,0 +1,20 @@
+[
+  {
+    "id": "lights-pro-x1-plus-combo-pack",
+    "name": "X1 Plus",
+    "loadWatts": 50,
+    "lux": "10,000 LUX",
+    "imageUrl": "https://lumevo.in/wp-content/uploads/2025/04/pgjatjrzwcnkyj3ygawo.webp",
+    "rating": 5,
+    "shopUrl": "https://lumevo.in/shop/fog-light/light-pro-x1-plus-combo-pack/"
+  },
+  {
+    "id": "lights-pro-x2-plus-combo-pack",
+    "name": "X2 Plus",
+    "loadWatts": 90,
+    "lux": "18,000 LUX",
+    "imageUrl": "https://lumevo.in/wp-content/uploads/2025/05/fghzg6qrv8hcgu2l25ss.webp",
+    "rating": 5,
+    "shopUrl": "https://lumevo.in/shop/fog-light/light-pro-x2-plus-combo-pack/"
+  }
+]

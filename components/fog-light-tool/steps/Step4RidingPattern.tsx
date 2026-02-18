@@ -16,7 +16,10 @@ export default function Step4RidingPattern({ state, setState, canRevealResults }
         </h2>
         <div className="space-y-6">
           <div className="space-y-3">
-            <label className="text-sm font-bold">Fog Frequency</label>
+            <label className="flex items-center gap-2 text-sm font-bold">
+              <span className="material-symbols-outlined text-base text-primary">foggy</span>
+              Fog Frequency
+            </label>
             <div className="rounded-full bg-surface-dark p-1">
               <div className="grid grid-cols-3 gap-1">
                 <button
@@ -69,7 +72,10 @@ export default function Step4RidingPattern({ state, setState, canRevealResults }
           </div>
 
           <div className="space-y-3">
-            <label className="text-sm font-bold">Average Riding Speed</label>
+            <label className="flex items-center gap-2 text-sm font-bold">
+              <span className="material-symbols-outlined text-base text-primary">speed</span>
+              Average Riding Speed
+            </label>
             <div className="grid grid-cols-2 gap-2">
               <OptionButton active={state.speed === "0-50"} onClick={() => void setState({ speed: "0-50" })} label="0-50 km/h" />
               <OptionButton active={state.speed === "50-80"} onClick={() => void setState({ speed: "50-80" })} label="50-80 km/h" />
@@ -79,8 +85,11 @@ export default function Step4RidingPattern({ state, setState, canRevealResults }
           </div>
 
           <div className="space-y-3">
-            <label className="text-sm font-bold">Primary Terrain</label>
-            <div className="flex flex-wrap gap-2">
+            <label className="flex items-center gap-2 text-sm font-bold">
+              <span className="material-symbols-outlined text-base text-primary">alt_route</span>
+              Primary Terrain
+            </label>
+            <div className="grid grid-cols-2 gap-2">
               <PillButton icon="location_city" active={state.terrain === "city"} label="City" onClick={() => void setState({ terrain: "city" })} />
               <PillButton icon="directions_car" active={state.terrain === "highway"} label="Highway" onClick={() => void setState({ terrain: "highway" })} />
               <PillButton icon="shuffle" active={state.terrain === "mixed"} label="Mixed" onClick={() => void setState({ terrain: "mixed" })} />
@@ -100,7 +109,7 @@ export default function Step4RidingPattern({ state, setState, canRevealResults }
         >
           <div className="flex w-full items-center justify-between p-4 text-left">
             <div className="flex items-center gap-3">
-              <span className="material-symbols-outlined text-primary">visibility</span>
+              <span className="material-symbols-outlined text-primary">eyeglasses_2</span>
               <span className="font-bold">Do You Wear Glasses for Distance?</span>
             </div>
             <div className="flex items-center gap-2">

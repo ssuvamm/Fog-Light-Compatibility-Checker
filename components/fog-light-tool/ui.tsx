@@ -92,17 +92,21 @@ export function CapacityCell({
   value,
   primary,
   signed,
+  approx,
 }: {
   label: string;
   value: number;
   primary?: boolean;
   signed?: boolean;
+  approx?: boolean;
 }) {
+  const renderedValue = signed ? (value >= 0 ? `+${value}` : value) : value;
   return (
     <div>
       <p className="mb-1 text-[10px] font-bold text-white/40 uppercase">{label}</p>
       <p className={`text-xl font-black ${primary ? "text-primary" : ""}`}>
-        {signed ? (value >= 0 ? `+${value}` : value) : value}{" "}
+        {approx ? "~" : ""}
+        {renderedValue}{" "}
         <span className="text-sm font-normal text-white/60">Watts</span>
       </p>
     </div>

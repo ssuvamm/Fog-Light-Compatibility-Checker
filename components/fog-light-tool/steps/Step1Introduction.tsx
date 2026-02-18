@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Risk } from "../ui";
 
 export default function Step1Introduction({
@@ -7,11 +8,13 @@ export default function Step1Introduction({
 }) {
   return (
     <section className="relative overflow-hidden pt-8 pb-4">
-      <div className="pointer-events-none absolute -top-10 -right-20 opacity-10">
-        <span className="material-symbols-outlined text-[240px] text-primary">
-          settings_backup_restore
-        </span>
-      </div>
+      {/* <Image
+        src="/logo.png"
+        alt="Logo"
+        width={300}
+        height={100}
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+      /> */}
       <h1 className="mb-4 text-4xl leading-tight font-black tracking-tight">
         Stop Overloading Your <span className="text-primary italic">Motorcycle.</span>
       </h1>
@@ -32,7 +35,7 @@ export default function Step1Introduction({
         onClick={onPrimaryAction}
       >
         Check Your Safe Watt Capacity
-        <span className="material-symbols-outlined">arrow_downward</span>
+        <span className="material-symbols-outlined">arrow_forward</span>
       </button>
     </section>
   );

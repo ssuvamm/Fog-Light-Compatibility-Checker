@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
+import { useQuery } from "convex/react";
 import {
   parseAsBoolean,
   parseAsInteger,
@@ -9,11 +10,10 @@ import {
   useQueryStates,
 } from "nuqs";
 import { useEffect, useMemo, useRef } from "react";
+import { api } from "@/convex/_generated/api";
 import {
   clamp,
   makeVisitorId,
-  STATIC_BIKES,
-  STATIC_FOG_LIGHTS,
 } from "./fog-light-tool/data";
 import Step1Introduction from "./fog-light-tool/steps/Step1Introduction";
 import Step2ElectricalEducation from "./fog-light-tool/steps/Step2ElectricalEducation";
@@ -34,7 +34,7 @@ const beamParser = parseAsStringLiteral(["amber", "white"]);
 const recommendationModeParser = parseAsStringLiteral(["style", "capacity"]);
 
 const STEP_TITLES: Record<1 | 2 | 3 | 4 | 5, string> = {
-  1: "Introduction",
+  1: "Moto Light",
   2: "Electrical Basics",
   3: "Capacity Setup",
   4: "Riding Pattern",
@@ -84,8 +84,10 @@ export default function FogLightTool() {
     }
   }, [setState, typedState.visitorId]);
 
-  const bikeSource = STATIC_BIKES;
-  const fogLightSource = STATIC_FOG_LIGHTS;
+  const liveBikes = useQuery(api.bikes.listBikes);
+  const liveFogLights = useQuery(api.fogLights.listFogLights);
+  const bikeSource = useMemo(() => liveBikes ?? [], [liveBikes]);
+  const fogLightSource = useMemo(() => liveFogLights ?? [], [liveFogLights]);
 
   const models = useMemo(
     () =>
@@ -101,11 +103,16 @@ export default function FogLightTool() {
     (entry) => entry.year === typedState.year,
   ) ?? {
     alternatorOutput: 510,
+    alternatorOutputApprox: false,
     stockLoad: 340,
+    stockLoadApprox: false,
   };
   const alternatorOutput = selectedYear.alternatorOutput;
+  const alternatorOutputApprox = Boolean(selectedYear.alternatorOutputApprox);
   const stockLoad = selectedYear.stockLoad;
+  const stockLoadApprox = Boolean(selectedYear.stockLoadApprox);
   const safeMargin = alternatorOutput - stockLoad - typedState.existingLoad;
+  const derivedApprox = alternatorOutputApprox || stockLoadApprox;
   const recommendedMax = Math.max(0, Math.floor(safeMargin * 0.9));
   const loadPercent = clamp(
     ((stockLoad + typedState.existingLoad + Math.min(recommendedMax, 40)) /
@@ -144,15 +151,20 @@ export default function FogLightTool() {
 
   return (
     <main className="mx-auto w-full max-w-xl space-y-6 px-4 pt-6 pb-28">
-      <header className="flex items-center justify-between py-2">
-        <button
-          className={`rounded-full border border-border-dark p-2 ${currentStep > 1 ? "cursor-pointer text-white" : "cursor-not-allowed text-white/30"}`}
-          disabled={currentStep === 1}
-          onClick={() => goToStep(currentStep - 1)}
-          aria-label="Go to previous step"
-        >
-          <span className="material-symbols-outlined">arrow_back</span>
-        </button>
+      <header
+        className={`flex items-center ${currentStep > 1 ? "justify-between" : "justify-center"} py-2`}
+      >
+        {currentStep > 1 && (
+          <button
+            className={
+              "rounded-full border border-border-dark p-2 cursor-pointer text-white"
+            }
+            onClick={() => goToStep(currentStep - 1)}
+            aria-label="Go to previous step"
+          >
+            <span className="material-symbols-outlined">arrow_back</span>
+          </button>
+        )}
         <div className="text-center">
           <p className="text-lg font-bold">{STEP_TITLES[currentStep]}</p>
           <p className="text-xs text-white/50">Step {currentStep} of 5</p>
@@ -185,9 +197,13 @@ export default function FogLightTool() {
               electricalCapacityRef={electricalCapacityRef}
               capacity={{
                 alternatorOutput,
+                alternatorOutputApprox,
                 stockLoad,
+                stockLoadApprox,
                 safeMargin,
+                safeMarginApprox: derivedApprox,
                 recommendedMax,
+                recommendedMaxApprox: derivedApprox,
                 loadPercent,
                 status,
               }}
@@ -213,8 +229,8 @@ export default function FogLightTool() {
       </AnimatePresence>
 
       {currentStep > 1 && currentStep < 5 && (
-        <div className="fixed right-0 bottom-0 left-0 border-t border-border-dark bg-background-dark/95 p-4 backdrop-blur-md">
-          <div className="mx-auto flex w-full max-w-xl items-center gap-3">
+        <div className="fixed right-0 bottom-0 left-0 border-t border-white/10 bg-background-dark/85 p-4 shadow-[0_-10px_40px_rgba(0,0,0,0.45)] backdrop-blur-xl backdrop-saturate-150 supports-backdrop-filter:bg-background-dark/75">
+          <div className="mx-auto flex w-full max-w-xl items-center gap-3 rounded-2xl border border-white/10 bg-white/3 p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
             <button
               className={`flex-1 rounded-xl border border-border-dark py-3 text-sm font-bold ${currentStep > 1 ? "cursor-pointer text-white" : "cursor-not-allowed text-white/30"}`}
               disabled={currentStep === 1}
@@ -232,9 +248,7 @@ export default function FogLightTool() {
                 ? ": Check Capacity"
                 : currentStep === 3
                   ? ": Riding Pattern"
-                  : currentStep === 4
-                    ? ": See Recommendation"
-                    : ""}
+                  : ""}
             </button>
           </div>
         </div>

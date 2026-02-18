@@ -35,10 +35,14 @@ export default function Step3ElectricalCapacity({
 
         <div className="space-y-4">
           <div className="space-y-2">
-            <label className="text-xs font-bold uppercase tracking-wider text-white/60">
+            <label
+              htmlFor="Make"
+              className="mb-2 block text-xs font-bold uppercase tracking-wider text-white/60"
+            >
               Motorcycle Make
             </label>
             <select
+              id="Make"
               className="w-full rounded-xl border border-border-dark bg-surface-dark px-4 py-3 text-white focus:border-primary focus:ring-primary"
               value={state.make}
               onChange={(event) =>
@@ -60,8 +64,14 @@ export default function Step3ElectricalCapacity({
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="text-xs font-bold uppercase tracking-wider text-white/60">Model</label>
+              <label
+                htmlFor="model"
+                className="mb-2 block text-xs font-bold uppercase tracking-wider text-white/60"
+              >
+                Model
+              </label>
               <select
+                id="model"
                 className="w-full rounded-xl border border-border-dark bg-surface-dark px-4 py-3 text-white focus:border-primary focus:ring-primary"
                 value={state.model}
                 onChange={(event) =>
@@ -80,8 +90,14 @@ export default function Step3ElectricalCapacity({
               </select>
             </div>
             <div className="space-y-2">
-              <label className="text-xs font-bold uppercase tracking-wider text-white/60">Year</label>
+              <label
+                htmlFor="year"
+                className="mb-2 block text-xs font-bold uppercase tracking-wider text-white/60"
+              >
+                Year
+              </label>
               <select
+                id="year"
                 className="w-full rounded-xl border border-border-dark bg-surface-dark px-4 py-3 text-white focus:border-primary focus:ring-primary"
                 value={state.year || ""}
                 onChange={(event) =>
@@ -109,10 +125,14 @@ export default function Step3ElectricalCapacity({
           </div>
 
           <div className="space-y-2 pt-2">
-            <label className="text-xs font-bold uppercase tracking-wider text-white/60">
+            <label
+              htmlFor="existingLoad"
+              className="mb-2 block text-xs font-bold uppercase tracking-wider text-white/60"
+            >
               Existing Accessory Load (Watts)
             </label>
             <input
+              id="existingLoad"
               className="w-full rounded-xl border border-border-dark bg-surface-dark px-4 py-3 text-white focus:border-primary focus:ring-primary"
               placeholder="0"
               type="number"
@@ -124,9 +144,9 @@ export default function Step3ElectricalCapacity({
                 })
               }
             />
-            <p className="rounded-lg border border-amber-300 bg-amber-200 p-3 text-sm italic text-black/40">
-              Note: If you already have auxiliary lights or accessories installed, enter their total
-              power consumption.
+            <p className="rounded-lg border border-amber-300 bg-amber-200 p-3 text-sm  text-black/80">
+              Note: If you already have auxiliary lights or accessories
+              installed, enter their total power consumption.
             </p>
           </div>
           <button
@@ -152,21 +172,47 @@ export default function Step3ElectricalCapacity({
             ref={electricalCapacityRef}
           >
             <div className="absolute top-0 right-0 p-4 opacity-5">
-              <span className="material-symbols-outlined text-8xl">analytics</span>
+              <span className="material-symbols-outlined text-8xl">
+                analytics
+              </span>
             </div>
             <h3 className="mb-4 text-xs font-black tracking-widest text-primary uppercase">
               Your Electrical Capacity
             </h3>
             <div className="grid grid-cols-2 gap-y-6">
-              <CapacityCell label="Alternator Output" value={capacity.alternatorOutput} />
-              <CapacityCell label="Stock Load" value={capacity.stockLoad} />
-              <CapacityCell label="Safe Margin" value={capacity.safeMargin} primary signed />
-              <CapacityCell label="Recommended Max" value={capacity.recommendedMax} />
+              <CapacityCell
+                label="Alternator Output"
+                value={capacity.alternatorOutput}
+                approx={capacity.alternatorOutputApprox}
+              />
+              <CapacityCell
+                label="Stock Load"
+                value={capacity.stockLoad}
+                approx={capacity.stockLoadApprox}
+              />
+              <CapacityCell
+                label="Safe Margin"
+                value={capacity.safeMargin}
+                primary
+                signed
+                approx={capacity.safeMarginApprox}
+              />
+              <CapacityCell
+                label="Recommended Max"
+                value={capacity.recommendedMax}
+                approx={capacity.recommendedMaxApprox}
+              />
             </div>
             <div className="mt-6 border-t border-border-dark pt-4">
               <div className="mb-2 flex items-center justify-between text-[10px] font-bold uppercase">
                 <span>Load Status</span>
-                <span className={capacity.loadPercent <= 70 ? "text-primary" : "text-orange-400"}>
+                <span
+                  className={
+                    capacity.loadPercent <= 70
+                      ? "text-primary"
+                      : "text-orange-400"
+                  }
+                >
                   {capacity.status}
                 </span>
               </div>
@@ -205,28 +251,35 @@ export default function Step3ElectricalCapacity({
                 >
                   <span className="material-symbols-outlined">arrow_back</span>
                 </button>
-                <h3 className="text-2xl font-black">Can&apos;t Find Your Bike?</h3>
+                <h3 className="text-2xl font-black">
+                  Can&apos;t Find Your Bike?
+                </h3>
                 <div className="w-10" />
               </div>
 
               <div className="space-y-6 p-5">
                 <div className="space-y-3 text-center">
-                  <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl border border-primary/40 bg-primary/15">
-                    <span className="material-symbols-outlined text-4xl text-primary">two_wheeler</span>
+                  <div className="flex items-center justify-center gap-4 text-left">
+                    <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-3xl border border-primary/40 bg-primary/15">
+                      <span className="material-symbols-outlined text-5xl text-primary">
+                        two_wheeler
+                      </span>
+                    </div>
+                    <h4 className="text-xl font-black leading-tight">
+                      We&apos;re constantly adding new models.
+                    </h4>
                   </div>
-                  <h4 className="text-4xl font-black leading-tight">
-                    We&apos;re constantly adding new models.
-                  </h4>
-                  <p className="text-lg text-white/65">
-                    Our database grows every day with technical specs for new motorcycles. If your
-                    model isn&apos;t listed, let us know and we&apos;ll prioritize adding it for you.
+                  <p className="text-sm text-white/65">
+                    Our database grows every day with technical specs for new
+                    motorcycles. If your model isn&apos;t listed, let us know
+                    and we&apos;ll prioritize adding it for you.
                   </p>
                 </div>
 
                 <div className="rounded-3xl border border-border-dark bg-surface-dark p-5">
                   <div className="space-y-4">
                     <div className="space-y-2">
-                      <label className="text-xs font-black tracking-[0.14em] text-primary uppercase">
+                      <label className="text-xs font-black tracking-[0.14em] text-primary uppercase mb-2 block">
                         Motorcycle Make
                       </label>
                       <input
@@ -237,18 +290,20 @@ export default function Step3ElectricalCapacity({
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-xs font-black tracking-[0.14em] text-primary uppercase">
+                      <label className="text-xs font-black tracking-[0.14em] text-primary uppercase mb-2 block">
                         Model Name
                       </label>
                       <input
                         className="w-full rounded-xl border border-border-dark bg-background-dark px-4 py-3 text-white placeholder:text-white/35"
                         placeholder="e.g. Africa Twin, R1, GS 1250"
                         value={requestModel}
-                        onChange={(event) => setRequestModel(event.target.value)}
+                        onChange={(event) =>
+                          setRequestModel(event.target.value)
+                        }
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-xs font-black tracking-[0.14em] text-primary uppercase">
+                      <label className="text-xs font-black tracking-[0.14em] text-primary uppercase mb-2 block">
                         Production Year
                       </label>
                       <input
@@ -259,16 +314,17 @@ export default function Step3ElectricalCapacity({
                       />
                     </div>
                     <p className="text-center text-sm italic text-white/50">
-                      * Technical requests are usually processed within 24-48 hours.
+                      * Technical requests are usually processed within 24-48
+                      hours.
                     </p>
                   </div>
                 </div>
 
                 <a
-                  href={`https://wa.me/?text=${requestText}`}
+                  href={`https://wa.me/919875646946?text=${requestText}&utm_source=moto_tool`}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#25D366] py-4 text-xl font-black text-white shadow-lg shadow-[#25D366]/30"
+                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#25D366] py-4 text-xl font-black text-white text-center shadow-lg shadow-[#25D366]/30"
                 >
                   Request Addition via WhatsApp
                 </a>

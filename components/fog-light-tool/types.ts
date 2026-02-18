@@ -7,7 +7,10 @@ export type Bike = {
     years: {
       year: number;
       alternatorOutput: number;
+      alternatorOutputApprox?: boolean;
       stockLoad: number;
+      stockLoadApprox?: boolean;
+      manualUrl?: string;
     }[];
   }[];
 };
@@ -16,9 +19,10 @@ export type FogLight = {
   id: string;
   name: string;
   loadWatts: number;
-  lumens: string;
+  lux: string;
   imageUrl: string;
   rating: number;
+  shopUrl: string;
 };
 
 export type ToolState = {
@@ -43,9 +47,13 @@ export type SetToolState = (values: Partial<ToolState>) => Promise<unknown>;
 
 export type CapacityData = {
   alternatorOutput: number;
+  alternatorOutputApprox: boolean;
   stockLoad: number;
+  stockLoadApprox: boolean;
   safeMargin: number;
+  safeMarginApprox: boolean;
   recommendedMax: number;
+  recommendedMaxApprox: boolean;
   loadPercent: number;
   status: "Optimized" | "Near Limit" | "Overloaded";
 };
