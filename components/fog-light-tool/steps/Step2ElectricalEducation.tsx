@@ -2,11 +2,11 @@ export default function Step2ElectricalEducation() {
   return (
     <section className="space-y-6">
       <div className="space-y-3">
-        <p className="text-xs font-black tracking-[0.18em] text-primary uppercase">Lesson</p>
-        <h2 className="text-3xl leading-tight font-black tracking-tight">
+        
+        <h2 className="text-2xl leading-tight font-black tracking-tight">
           How Motorcycle Power <span className="text-primary">Actually</span> Works
         </h2>
-        <p className="max-w-md text-base leading-relaxed text-white/70">
+        <p className="max-w-md text-sm leading-relaxed text-white/70">
           Understanding the flow of energy from your engine to your electronics is key to preventing a dead battery.
         </p>
       </div>
@@ -23,8 +23,8 @@ export default function Step2ElectricalEducation() {
               </div>
             </div>
             <div>
-              <h3 className="text-2xl font-black">Alternator</h3>
-              <p className="text-base text-white/70">Produces raw AC power as the engine spins.</p>
+              <h3 className="text-xl font-black">Alternator</h3>
+              <p className="text-sm text-white/70">Produces raw AC power as the engine spins.</p>
             </div>
           </div>
 
@@ -40,8 +40,8 @@ export default function Step2ElectricalEducation() {
               </div>
             </div>
             <div>
-              <h3 className="text-2xl font-black">Regulator / Rectifier</h3>
-              <p className="text-base text-white/70">Converts AC to DC and caps voltage at ~14.4V.</p>
+              <h3 className="text-xl font-black">Regulator / Rectifier</h3>
+              <p className="text-sm text-white/70">Converts AC to DC and caps voltage at ~14.4V.</p>
             </div>
           </div>
 
@@ -50,14 +50,14 @@ export default function Step2ElectricalEducation() {
               <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-blue-600/20">
                 <span className="material-symbols-outlined text-blue-400">lightbulb</span>
               </div>
-              <h4 className="text-2xl font-black">System</h4>
+              <h4 className="text-xl font-black">System</h4>
               <p className="text-sm text-white/60">Lights &amp; Ignition</p>
             </div>
             <div className="rounded-2xl border border-primary/40 bg-primary/10 p-4 text-center">
               <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-primary/20">
                 <span className="material-symbols-outlined text-primary">battery_charging_full</span>
               </div>
-              <h4 className="text-2xl font-black">Storage</h4>
+              <h4 className="text-xl font-black">Storage</h4>
               <p className="text-sm text-white/60">Battery Reservoir</p>
             </div>
           </div>

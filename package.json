@@ -7,6 +7,8 @@
     "dev:frontend": "next dev",
     "dev:backend": "convex dev",
     "predev": "convex dev --until-success && convex dashboard",
+    "convex:upload-bikes": "node scripts/upload-bikes-to-convex.mjs",
+    "convex:upload-fog-lights": "node scripts/upload-fog-lights-to-convex.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --ignore-pattern \"convex/_generated/**\""
@@ -14,6 +16,7 @@
   "dependencies": {
     "convex": "^1.31.7",
     "framer-motion": "^12.34.1",
+    "html-to-image": "^1.11.13",
     "next": "16.1.6",
     "nuqs": "^2.8.8",
     "react": "^19.2.4",
