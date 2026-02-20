@@ -12,7 +12,7 @@ export function Risk({
   return (
     <div className="flex items-center gap-3 rounded-lg border border-border-dark bg-surface-dark p-3">
       <span className={`material-symbols-outlined ${color}`}>{icon}</span>
-      <span className="text-sm font-medium">{text}</span>
+      <span className="text-xs font-medium">{text}</span>
     </div>
   );
 }
@@ -127,6 +127,64 @@ export function SpecCell({ label, value }: { label: string; value: string }) {
     <div className="flex flex-col">
       <span className="text-[9px] font-bold text-white/40 uppercase">{label}</span>
       <span className="text-xs font-semibold">{value}</span>
+    </div>
+  );
+}
+
+export function LoadStatusBar({
+  availableWatts,
+  usageWatts,
+}: {
+  availableWatts: number;
+  usageWatts: number;
+}) {
+  const available = Math.max(0, Math.floor(availableWatts));
+  const usage = Math.max(0, Math.floor(usageWatts));
+  const usageInAvailablePct =
+    available > 0 ? Math.min(100, (usage / available) * 100) : usage > 0 ? 100 : 0;
+  const overloadPct =
+    available > 0
+      ? Math.max(0, Math.min(100, ((usage - available) / available) * 100))
+      : usage > 0
+        ? 100
+        : 0;
+  const status =
+    usage > available ? "Overloaded" : usage === available ? "Near Limit" : "Safe";
+  const statusClass =
+    status === "Overloaded"
+      ? "text-red-400"
+      : status === "Near Limit"
+        ? "text-amber-300"
+        : "text-emerald-400";
+
+  return (
+    <div className="space-y-2 rounded-xl border border-border-dark bg-background-dark/70 p-3">
+      <div className="flex items-center justify-between text-[10px] font-bold uppercase">
+        <span>Load Status</span>
+        <span className={statusClass}>{status}</span>
+      </div>
+      <div className="relative h-2 w-full overflow-hidden rounded-full bg-white/10">
+        <div
+          className="absolute inset-0 bg-emerald-400"
+          title={`Available power: ${available}W`}
+        />
+        {overloadPct > 0 && (
+          <div
+            className="absolute top-0 right-0 h-full bg-red-500"
+            style={{ width: `${overloadPct}%` }}
+            title={`Excess over available: ${Math.max(0, usage - available)}W`}
+          />
+        )}
+        <div
+          className="absolute top-0 left-0 h-full bg-primary shadow-[0_0_12px_rgba(249,190,22,0.7)]"
+          style={{ width: `${usageInAvailablePct}%` }}
+          title={`This light usage: ${usage}W`}
+        />
+      </div>
+      <div className="flex items-center justify-between text-[10px] font-bold text-white/65 uppercase">
+        <span>Available: {available}W</span>
+        <span>This light: {usage}W</span>
+      </div>
     </div>
   );
 }

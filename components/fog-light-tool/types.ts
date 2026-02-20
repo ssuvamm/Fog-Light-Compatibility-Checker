@@ -26,6 +26,7 @@ export type FogLight = {
 };
 
 export type ToolState = {
+  step: number;
   recommendationMode: "style" | "capacity";
   recommendationIndex: number;
   visitorId: string;
@@ -33,9 +34,9 @@ export type ToolState = {
   model: string;
   year: number;
   existingLoad: number;
-  fogFrequency: "frequently" | "occasionally" | "no";
-  speed: "0-50" | "50-80" | "80-110" | "110+";
-  terrain: "city" | "highway" | "mixed" | "hilly";
+  fogFrequency: "" | "frequently" | "occasionally" | "no";
+  speed: "" | "0-50" | "50-80" | "80-100" | "100-140";
+  terrain: "" | "city" | "highway" | "mixed" | "hilly";
   wearsGlasses: boolean;
   leftEye: string;
   rightEye: string;
@@ -43,7 +44,9 @@ export type ToolState = {
   checkedUsage: boolean;
 };
 
-export type SetToolState = (values: Partial<ToolState>) => Promise<unknown>;
+export type SetToolState = (
+  values: Partial<ToolState> | null,
+) => Promise<unknown>;
 
 export type CapacityData = {
   alternatorOutput: number;
