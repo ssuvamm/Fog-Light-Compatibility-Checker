@@ -15,9 +15,37 @@ export default function Step3ElectricalCapacity({
   electricalCapacityRef,
 }: Step3Props) {
   const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
+  const [activeCapacityTooltip, setActiveCapacityTooltip] = useState<
+    "used" | "recommended" | "danger" | null
+  >(null);
   const [requestMake, setRequestMake] = useState("");
   const [requestModel, setRequestModel] = useState("");
   const [requestYear, setRequestYear] = useState("");
+  const usedWatts = Math.max(0, capacity.stockLoad + state.existingLoad);
+  const recommendedWatts = Math.max(0, capacity.recommendedMax);
+  const rawDangerZoneWatts =
+    capacity.alternatorOutput -
+    capacity.stockLoad -
+    state.existingLoad -
+    capacity.recommendedMax;
+  const dangerZoneWatts = Math.max(0, rawDangerZoneWatts);
+  const barScale = Math.max(
+    1,
+    capacity.alternatorOutput,
+    usedWatts + recommendedWatts + dangerZoneWatts,
+  );
+  const usedPercent = (usedWatts / barScale) * 100;
+  const recommendedPercent = (recommendedWatts / barScale) * 100;
+  const dangerPercent = (dangerZoneWatts / barScale) * 100;
+  const usedTooltipLeft = Math.max(8, Math.min(92, usedPercent / 2));
+  const recommendedTooltipLeft = Math.max(
+    8,
+    Math.min(92, usedPercent + recommendedPercent / 2),
+  );
+  const dangerTooltipLeft = Math.max(
+    8,
+    Math.min(92, usedPercent + recommendedPercent + dangerPercent / 2),
+  );
 
   const requestText = useMemo(() => {
     return encodeURIComponent(
@@ -27,7 +55,7 @@ export default function Step3ElectricalCapacity({
 
   return (
     <>
-      <section className="space-y-6" id="configure-your-vehicle">
+      <section className="space-y-6 pb-10" id="configure-your-vehicle">
         <h2 className="flex items-center gap-2 text-xl font-bold">
           <span className="h-6 w-1.5 rounded-full bg-primary"></span>
           Know Your Motorcycle Capacity
@@ -131,19 +159,39 @@ export default function Step3ElectricalCapacity({
             >
               Existing Accessory Load (Watts)
             </label>
-            <input
+            <div
               id="existingLoad"
-              className="w-full rounded-xl border border-border-dark bg-surface-dark px-4 py-3 text-white focus:border-primary focus:ring-primary"
-              placeholder="0"
-              type="number"
-              min={0}
-              value={state.existingLoad}
-              onChange={(event) =>
-                void setState({
-                  existingLoad: Math.max(0, Number(event.target.value) || 0),
-                })
-              }
-            />
+              className="flex w-full items-center overflow-hidden rounded-xl border border-border-dark bg-surface-dark"
+            >
+              <button
+                type="button"
+                className="flex h-12 w-14 items-center justify-center text-xl font-black text-white/80 transition hover:bg-white/5 disabled:cursor-not-allowed disabled:text-white/30"
+                disabled={state.existingLoad <= 0}
+                onClick={() =>
+                  void setState({
+                    existingLoad: Math.max(0, state.existingLoad - 10),
+                  })
+                }
+                aria-label="Decrease existing accessory load"
+              >
+                -
+              </button>
+              <div className="flex h-12 flex-1 items-center justify-center border-x border-border-dark text-base font-bold text-white">
+                {state.existingLoad}
+              </div>
+              <button
+                type="button"
+                className="flex h-12 w-14 items-center justify-center text-xl font-black text-white/80 transition hover:bg-white/5"
+                onClick={() =>
+                  void setState({
+                    existingLoad: Math.max(0, state.existingLoad + 10),
+                  })
+                }
+                aria-label="Increase existing accessory load"
+              >
+                +
+              </button>
+            </div>
             <p className="rounded-lg border border-amber-300 bg-amber-200 p-3 text-sm  text-black/80">
               Note: If you already have auxiliary lights or accessories
               installed, enter their total power consumption.
@@ -186,19 +234,19 @@ export default function Step3ElectricalCapacity({
                 approx={capacity.alternatorOutputApprox}
               />
               <CapacityCell
-                label="Stock Load"
+                label="System Load"
                 value={capacity.stockLoad}
                 approx={capacity.stockLoadApprox}
               />
               <CapacityCell
-                label="Safe Margin"
+                label="Total usable power"
                 value={capacity.safeMargin}
                 primary
                 signed
                 approx={capacity.safeMarginApprox}
               />
               <CapacityCell
-                label="Recommended Max"
+                label="Recommended Power"
                 value={capacity.recommendedMax}
                 approx={capacity.recommendedMaxApprox}
               />
@@ -206,23 +254,89 @@ export default function Step3ElectricalCapacity({
             <div className="mt-6 border-t border-border-dark pt-4">
               <div className="mb-2 flex items-center justify-between text-[10px] font-bold uppercase">
                 <span>Load Status</span>
-                <span
-                  className={
-                    capacity.loadPercent <= 70
-                      ? "text-primary"
-                      : "text-orange-400"
-                  }
-                >
-                  {capacity.status}
-                </span>
+                <span className={"text-primary"}>{capacity.status}</span>
               </div>
-              <div className="h-2 w-full rounded-full bg-white/10">
-                <motion.div
-                  className="h-full rounded-full bg-primary"
-                  initial={{ width: 0 }}
-                  animate={{ width: `${Math.round(capacity.loadPercent)}%` }}
-                  transition={{ duration: 1, ease: "easeInOut" }}
-                />
+              <div className="relative">
+                <div className="flex h-2 w-full overflow-hidden rounded-full bg-white/10">
+                  <motion.button
+                    type="button"
+                    className={`h-full bg-primary ${usedPercent >= 100 ? "rounded-full" : "rounded-l-full"} ${usedPercent <= 0 ? "pointer-events-none" : "cursor-pointer"}`}
+                    initial={{ width: 0 }}
+                    animate={{ width: `${usedPercent}%` }}
+                    transition={{ duration: 1, ease: "easeInOut" }}
+                    onClick={() =>
+                      setActiveCapacityTooltip((prev) =>
+                        prev === "used" ? null : "used",
+                      )
+                    }
+                    aria-label="Power used"
+                  />
+                  <motion.button
+                    type="button"
+                    className={`h-full bg-emerald-400 ${recommendedPercent <= 0 ? "pointer-events-none" : "cursor-pointer"}`}
+                    initial={{ width: 0 }}
+                    animate={{ width: `${recommendedPercent}%` }}
+                    transition={{ duration: 1, ease: "easeInOut" }}
+                    onClick={() =>
+                      setActiveCapacityTooltip((prev) =>
+                        prev === "recommended" ? null : "recommended",
+                      )
+                    }
+                    aria-label="Recommended power"
+                  />
+                  <motion.button
+                    type="button"
+                    className={`h-full bg-red-500 ${dangerPercent >= 100 ? "rounded-full" : "rounded-r-full"} ${dangerPercent <= 0 ? "pointer-events-none" : "cursor-pointer"}`}
+                    initial={{ width: 0 }}
+                    animate={{ width: `${dangerPercent}%` }}
+                    transition={{ duration: 1, ease: "easeInOut" }}
+                    onClick={() =>
+                      setActiveCapacityTooltip((prev) =>
+                        prev === "danger" ? null : "danger",
+                      )
+                    }
+                    aria-label="Danger zone"
+                  />
+                </div>
+                <AnimatePresence>
+                  {activeCapacityTooltip === "used" && usedWatts > 0 && (
+                    <motion.div
+                      className="pointer-events-none absolute -top-10 -translate-x-1/2 rounded-md border border-white/15 bg-background-dark/95 px-2 py-1 text-[10px] font-bold text-white shadow-lg"
+                      style={{ left: `${usedTooltipLeft}%` }}
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 6 }}
+                      transition={{ duration: 0.15 }}
+                    >
+                      Power used: {usedWatts}W
+                    </motion.div>
+                  )}
+                  {activeCapacityTooltip === "recommended" &&
+                    recommendedWatts > 0 && (
+                      <motion.div
+                        className="pointer-events-none absolute -top-10 -translate-x-1/2 rounded-md border border-white/15 bg-background-dark/95 px-2 py-1 text-[10px] font-bold text-white shadow-lg"
+                        style={{ left: `${recommendedTooltipLeft}%` }}
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 6 }}
+                        transition={{ duration: 0.15 }}
+                      >
+                        Recommended power: {recommendedWatts}W
+                      </motion.div>
+                    )}
+                  {activeCapacityTooltip === "danger" && dangerZoneWatts > 0 && (
+                    <motion.div
+                      className="pointer-events-none absolute -top-10 -translate-x-1/2 rounded-md border border-white/15 bg-background-dark/95 px-2 py-1 text-[10px] font-bold text-white shadow-lg"
+                      style={{ left: `${dangerTooltipLeft}%` }}
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 6 }}
+                      transition={{ duration: 0.15 }}
+                    >
+                      Danger zone: {rawDangerZoneWatts}W
+                      </motion.div>
+                    )}
+                </AnimatePresence>
               </div>
             </div>
           </div>

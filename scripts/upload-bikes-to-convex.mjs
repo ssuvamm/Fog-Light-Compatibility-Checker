@@ -25,8 +25,8 @@ async function main() {
 
   const datasetPath = path.join(
     process.cwd(),
-    "stitch_motorcycle_fog_light_selection_tool",
-    "bsm_bike_dataset.json",
+    "data_manual",
+    "bike_all.json",
   );
   const raw = await fs.readFile(datasetPath, "utf8");
   const bikes = JSON.parse(raw);

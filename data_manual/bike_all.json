@@ -9,8 +9,8 @@
             "year": 2020,
             "alternatorOutput": 200,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 110,
+            "stockLoadApprox": false,
             "manualUrl": "https://cdn.bajajauto.com/-/media/assets/bajajauto/customer-service/owners-manual/owners-manual-pdf/om-for-website/avenger_220_om.pdf"
           }
         ]
@@ -22,8 +22,8 @@
             "year": 2020,
             "alternatorOutput": 160,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 75,
+            "stockLoadApprox": false,
             "manualUrl": "https://cdn.bajajauto.com/-/media/assets/bajajauto/customer-service/owners-manual/owners-manual-pdf/om-for-website/avenger_160_om.pdf"
           }
         ]
@@ -35,8 +35,8 @@
             "year": 2020,
             "alternatorOutput": 200,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 110,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.bajajauto.com/pdf/Owner's-Manual-Avenger-220BS-VI.pdf"
           }
         ]
@@ -48,8 +48,8 @@
             "year": 2020,
             "alternatorOutput": 238,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 85,
+            "stockLoadApprox": false,
             "manualUrl": "https://cdn.bajajauto.com/-/media/assets/bajajauto/customer-service/owners-manual/owners-manual-pdf/om-for-website/dominar_250_om.pdf"
           }
         ]
@@ -61,8 +61,8 @@
             "year": 2020,
             "alternatorOutput": 238,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 90,
+            "stockLoadApprox": false,
             "manualUrl": "https://cdn.bajajauto.com/-/media/assets/bajajauto/customer-service/owners-manual/owners-manual-pdf/om-for-website/dominar_400_om.pdf"
           }
         ]
@@ -74,8 +74,8 @@
             "year": 2021,
             "alternatorOutput": 200,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 75,
+            "stockLoadApprox": false,
             "manualUrl": "https://cdn.bajajauto.com/-/media/assets/bajajauto/customer-service/owners-manual/owners-manual-pdf/om-for-website/pulsar_150_ugsd-td_om.pdf"
           }
         ]
@@ -87,8 +87,8 @@
             "year": 2020,
             "alternatorOutput": 200,
             "alternatorOutputApprox": true,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 120,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.bajajauto.com/pdf/Owner's-Manual-Pulsar-180-220-BS-VI.pdf"
           }
         ]
@@ -100,8 +100,8 @@
             "year": 2021,
             "alternatorOutput": 200,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 80,
+            "stockLoadApprox": false,
             "manualUrl": "https://4206240.fs1.hubspotusercontent-na1.net/hubfs/4206240/Pulsar%20250%20Trg%20Note%20Final.pdf"
           }
         ]
@@ -113,8 +113,8 @@
             "year": 2021,
             "alternatorOutput": 160,
             "alternatorOutputApprox": true,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 80,
+            "stockLoadApprox": false,
             "manualUrl": "https://cdn.bajajauto.com/-/media/assets/bajajauto/customer-service/owners-manual/owners-manual-pdf/om-for-website/pulsar_ns160_single-channel_om.pdf"
           }
         ]
@@ -126,8 +126,8 @@
             "year": 2021,
             "alternatorOutput": 218,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 85,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.roadsafetymoris.org.in/ns200/bajaj_pulsar_200_nsServiceManual.pdf"
           }
         ]
@@ -139,8 +139,8 @@
             "year": 2021,
             "alternatorOutput": 218,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 85,
+            "stockLoadApprox": false,
             "manualUrl": "https://cdn.bajajauto.com/-/media/assets/bajajauto/customer-service/owners-manual/owners-manual-pdf/om-for-website/pulsar_rs200_om.pdf"
           }
         ]
@@ -157,8 +157,8 @@
             "year": 2023,
             "alternatorOutput": 316,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 90,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.bmw-motorrad.in/en/models/urban_mobility/c400gt/technicaldata.html#/section-technical-data"
           }
         ]
@@ -170,8 +170,8 @@
             "year": 2023,
             "alternatorOutput": 416,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 120,
+            "stockLoadApprox": false,
             "manualUrl": "https://manuals.bmw-motorrad.com/manuals/BA-Extern/IN/BA-INTERNET-COM/PDF/F_0B08_RM_0321_01.pdf"
           }
         ]
@@ -183,8 +183,8 @@
             "year": 2023,
             "alternatorOutput": 416,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 125,
+            "stockLoadApprox": false,
             "manualUrl": "https://manuals.bmw-motorrad.com/manuals/BA-Extern/IN/BA-INTERNET-COM/PDF/F_0B09_RM_0321_01.pdf"
           }
         ]
@@ -196,8 +196,8 @@
             "year": 2023,
             "alternatorOutput": 416,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 125,
+            "stockLoadApprox": false,
             "manualUrl": "https://manuals.bmw-motorrad.com/manuals/BA-Extern/IN/BA-INTERNET-COM/PDF/F_0K01_RM_0819_01.pdf"
           }
         ]
@@ -210,7 +210,7 @@
             "alternatorOutput": 416,
             "alternatorOutputApprox": false,
             "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoadApprox": false,
             "manualUrl": "https://manuals.bmw-motorrad.com/manuals/BA-Extern/IN/BA-INTERNET-COM/PDF/F_0K11_RM_0623_01.pdf"
           }
         ]
@@ -222,8 +222,8 @@
             "year": 2023,
             "alternatorOutput": 416,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 110,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.bmw-motorrad.in/en/models/sport/f900xr/technicaldata.html"
           }
         ]
@@ -235,8 +235,8 @@
             "year": 2023,
             "alternatorOutput": 308,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 80,
+            "stockLoadApprox": false,
             "manualUrl": "https://manuals.bmw-motorrad.com/manuals/BA-Extern/IN/BA-INTERNET-COM/PDF/G_0G31_RM_0320_01.pdf"
           }
         ]
@@ -248,8 +248,8 @@
             "year": 2023,
             "alternatorOutput": 308,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 80,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.bmw-motorrad.in/en/models/sport/g310rr/technicaldata.html#/section-technical-data"
           }
         ]
@@ -261,8 +261,8 @@
             "year": 2023,
             "alternatorOutput": 700,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 220,
+            "stockLoadApprox": false,
             "manualUrl": "https://manuals.bmw-motorrad.com/manuals/BA-Extern/IN/BA-INTERNET-COM/PDF/K_0F01_RM_0418_01.pdf"
           }
         ]
@@ -274,8 +274,8 @@
             "year": 2023,
             "alternatorOutput": 700,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 220,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.bmw-motorrad.in/en/models/tour/k1600gtl/technicaldata.html"
           }
         ]
@@ -287,8 +287,8 @@
             "year": 2023,
             "alternatorOutput": 450,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 140,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.bmw-motorrad.in/en/models/m/m1000rr/technicaldata.html"
           }
         ]
@@ -300,8 +300,8 @@
             "year": 2023,
             "alternatorOutput": 510,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 150,
+            "stockLoadApprox": false,
             "manualUrl": "https://manuals.bmw-motorrad.com/manuals/BA-Extern/IN/BA-INTERNET-COM/PDF/R_0M01_RM_0321_01.pdf"
           }
         ]
@@ -313,8 +313,8 @@
             "year": 2023,
             "alternatorOutput": 510,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 150,
+            "stockLoadApprox": false,
             "manualUrl": "https://manuals.bmw-motorrad.com/manuals/BA-Extern/IN/BA-INTERNET-COM/PDF/R_0M13_RM_0620_R1250GSAdventure_07.pdf"
           }
         ]
@@ -326,8 +326,8 @@
             "year": 2023,
             "alternatorOutput": 508,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 180,
+            "stockLoadApprox": false,
             "manualUrl": "https://manuals.bmw-motorrad.com/manuals/BA-Extern/IN/BA-INTERNET-COM/PDF/R_0J71_RM_0321_01.pdf"
           }
         ]
@@ -339,8 +339,8 @@
             "year": 2023,
             "alternatorOutput": 508,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 180,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.bmw-motorrad.in/en/models/tour/r1250rt/technicaldata.html#/section-technical-data"
           }
         ]
@@ -352,8 +352,8 @@
             "year": 2023,
             "alternatorOutput": 600,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 130,
+            "stockLoadApprox": false,
             "manualUrl": "https://manuals.bmw-motorrad.com/manuals/BA-Extern/IN/BA-INTERNET-COM/PDF/R_0L21_RM_1220_01.pdf"
           }
         ]
@@ -365,8 +365,8 @@
             "year": 2023,
             "alternatorOutput": 660,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 200,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.bmw-motorrad.in/en/models/heritage/r18-transcontinental/technicaldata.html#/section-technical-data"
           }
         ]
@@ -378,8 +378,8 @@
             "year": 2023,
             "alternatorOutput": 450,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 120,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.bmw-motorrad.in/en/models/roadster/s1000r/technicaldata.html#/section-technical-data"
           }
         ]
@@ -391,8 +391,8 @@
             "year": 2023,
             "alternatorOutput": 450,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 120,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.bmw-motorrad.in/en/models/sport/s1000rr-new/technicaldata.html"
           }
         ]
@@ -404,8 +404,8 @@
             "year": 2023,
             "alternatorOutput": 493,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 130,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.bmw-motorrad.in/en/models/sport/s1000xr/technicaldata.html"
           }
         ]
@@ -422,8 +422,8 @@
             "year": 2023,
             "alternatorOutput": 325,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 85,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.heromotocorp.com/content/dam/hero-aem-website/in/service-owner-manual/H-D-X440-Sep-2023-updated-dec.pdf"
           }
         ]
@@ -440,8 +440,8 @@
             "year": 2024,
             "alternatorOutput": 120,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true
+            "stockLoad": 70,
+            "stockLoadApprox": false
           }
         ]
       },
@@ -452,8 +452,8 @@
             "year": 2025,
             "alternatorOutput": 140,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true
+            "stockLoad": 70,
+            "stockLoadApprox": false
           }
         ]
       },
@@ -464,8 +464,8 @@
             "year": 2015,
             "alternatorOutput": 140,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 110,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.heromotocorp.com/content/dam/hero-aem-website/in/service-owner-manual/Hunk_(Nov_2015).pdf"
           }
         ]
@@ -477,8 +477,8 @@
             "year": 2025,
             "alternatorOutput": 230,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 80,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.heromotocorp.com/content/dam/hero-aem-website/in/service-owner-manual/xoom_160_aug_2025.pdf"
           }
         ]
@@ -490,8 +490,8 @@
             "year": 2020,
             "alternatorOutput": 252,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 85,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.heromotocorp.com/content/dam/hero-aem-website/in/service-owner-manual/Xpluse_200_FI_(June_2020).pdf"
           }
         ]
@@ -503,8 +503,8 @@
             "year": 2023,
             "alternatorOutput": 170,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 85,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.heromotocorp.com/content/dam/hero-aem-website/in/service-owner-manual/xpulse_200_4v_may_2023.pdf"
           }
         ]
@@ -516,8 +516,8 @@
             "year": 2021,
             "alternatorOutput": 252,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 85,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.heromotocorp.com/content/dam/hero-aem-website/in/service-owner-manual/Xpulse_200T_FI_(Feb_2021).pdf"
           }
         ]
@@ -529,8 +529,8 @@
             "year": 2025,
             "alternatorOutput": 320,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 85,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.heromotocorp.com/content/dam/hero-aem-website/in/service-owner-manual/xpulse_210_mar_2025.pdf"
           }
         ]
@@ -547,8 +547,8 @@
             "year": 2023,
             "alternatorOutput": 320,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 90,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.heromotocorp.com/content/dam/hero-aem-website/in/service-owner-manual/karzima_xmr_210_sep_2023.pdf"
           }
         ]
@@ -565,8 +565,8 @@
             "year": 2020,
             "alternatorOutput": 160,
             "alternatorOutputApprox": true,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 110,
+            "stockLoadApprox": false,
             "manualUrl": "https://edge.sitecorecloud.io/hondamotorc388f-hmsi8ece-prodb777-e813/media/Project/HONDA2WI/honda2wheelersindia/pdf/Motorcycle/Hornet20/2020/August/4a548cc2-5cb9-445a-8905-4b0b6539ae97OM_English.pdf"
           }
         ]
@@ -579,7 +579,7 @@
             "alternatorOutput": 300,
             "alternatorOutputApprox": true,
             "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoadApprox": false,
             "manualUrl": "https://cdn.powersports.honda.com/documentum/MWOM/ml.remawmom.amkj2424omen.pdf"
           }
         ]
@@ -591,8 +591,8 @@
             "year": 2020,
             "alternatorOutput": 300,
             "alternatorOutputApprox": true,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 90,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.team-bhp.com/forum/attachments/motorbikes/2121365d1613225607-smurfy-my-honda-cb350-ownership-review-om_hness_cb350.pdf"
           }
         ]
@@ -604,8 +604,8 @@
             "year": 2018,
             "alternatorOutput": 300,
             "alternatorOutputApprox": true,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 90,
+            "stockLoadApprox": false,
             "manualUrl": "https://2rom-prd-data.hondamotopub.com/om/AHM/CB300F-FA/2018/CB300F.FA_31K75B20_0.pdf"
           }
         ]
@@ -617,8 +617,8 @@
             "year": 2021,
             "alternatorOutput": 300,
             "alternatorOutputApprox": true,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 90,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.team-bhp.com/forum/attachments/motorbikes/2121365d1613225607-smurfy-my-honda-cb350-ownership-review-om_hness_cb350.pdf"
           }
         ]
@@ -630,8 +630,8 @@
             "year": 2024,
             "alternatorOutput": 300,
             "alternatorOutputApprox": true,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 95,
+            "stockLoadApprox": false,
             "manualUrl": "https://cdn.powersports.honda.com/documentum/MWOM/ml.remawmom.amlr2424omen.pdf"
           }
         ]
@@ -643,8 +643,8 @@
             "year": 2019,
             "alternatorOutput": 300,
             "alternatorOutputApprox": true,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 95,
+            "stockLoadApprox": false,
             "manualUrl": "https://cdn.powersports.honda.com/documentum/MWOM/ml.remawmom.2019_31mknd00_cb650r.pdf"
           }
         ]
@@ -656,8 +656,8 @@
             "year": 2023,
             "alternatorOutput": 300,
             "alternatorOutputApprox": true,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 110,
+            "stockLoadApprox": false,
             "manualUrl": "https://cdn.powersports.honda.com/documentum/MWOM/ml.remawmom.amkr2323omen.pdf"
           }
         ]
@@ -669,8 +669,8 @@
             "year": 2023,
             "alternatorOutput": 300,
             "alternatorOutputApprox": true,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 95,
+            "stockLoadApprox": false,
             "manualUrl": "https://cdn.powersports.honda.com/documentum/MWOM/ml.remawmom.amkyr2323omen.pdf"
           }
         ]
@@ -682,8 +682,8 @@
             "year": 2020,
             "alternatorOutput": 300,
             "alternatorOutputApprox": true,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 110,
+            "stockLoadApprox": false,
             "manualUrl": "https://cdn.powersports.honda.com/documentum/MWOM/ml.remawmom.2020_31mks800_crf1100_africa_twin.pdf"
           }
         ]
@@ -695,8 +695,8 @@
             "year": 2020,
             "alternatorOutput": 300,
             "alternatorOutputApprox": true,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 110,
+            "stockLoadApprox": false,
             "manualUrl": "https://cdn.powersports.honda.com/documentum/MWOM/ml.remawmom.2020_31mks800_crf1100_africa_twin.pdf"
           }
         ]
@@ -708,8 +708,8 @@
             "year": 2025,
             "alternatorOutput": 300,
             "alternatorOutputApprox": true,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 200,
+            "stockLoadApprox": false,
             "manualUrl": "https://cdn.powersports.honda.com/documentum/MWOM/ml.remawmom.amlj2525omen.pdf"
           }
         ]
@@ -721,8 +721,8 @@
             "year": 2025,
             "alternatorOutput": 300,
             "alternatorOutputApprox": true,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 200,
+            "stockLoadApprox": false,
             "manualUrl": "https://cdn.powersports.honda.com/documentum/MWOM/ml.remawmom.amlj2525omen.pdf"
           }
         ]
@@ -734,8 +734,8 @@
             "year": 2025,
             "alternatorOutput": 300,
             "alternatorOutputApprox": true,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 90,
+            "stockLoadApprox": false,
             "manualUrl": "https://edge.sitecorecloud.io/hondamotorc388f-hmsi8ece-prodb777-e813/media/Project/HONDA2WI/honda2wheelersindia/pdf/Bigwing/Hness-350/2025/March/1ac8275c-b51a-46f2-a6ad-a2296b82c9eeOwners_Manual.pdf"
           }
         ]
@@ -748,7 +748,7 @@
             "alternatorOutput": 300,
             "alternatorOutputApprox": true,
             "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoadApprox": false,
             "manualUrl": "https://cdn.powersports.honda.com/documentum/MWOM/ml.remawmom.amlr2424omen.pdf"
           }
         ]
@@ -760,8 +760,8 @@
             "year": 2023,
             "alternatorOutput": 150,
             "alternatorOutputApprox": true,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 75,
+            "stockLoadApprox": false,
             "manualUrl": "https://edge.sitecorecloud.io/hondamotorc388f-hmsi8ece-prodb777-e813/media/Project/HONDA2WI/honda2wheelersindia/pdf/MOTORCYCLE/SP125/2023/September/c44b08b95afd47988d116f1971b423d8OMSP125English.pdf"
           }
         ]
@@ -779,7 +779,7 @@
             "alternatorOutput": 300,
             "alternatorOutputApprox": true,
             "stockLoad": 100,
-            "stockLoadApprox": true
+            "stockLoadApprox": false
           }
         ]
       }
@@ -796,7 +796,7 @@
             "alternatorOutput": 300,
             "alternatorOutputApprox": true,
             "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoadApprox": false,
             "manualUrl": "https://pws.ktivs.net/dispeBook?file=99987-1952&lang_code=EN"
           }
         ]
@@ -808,8 +808,8 @@
             "year": 2023,
             "alternatorOutput": 300,
             "alternatorOutputApprox": true,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 95,
+            "stockLoadApprox": false,
             "manualUrl": "https://pws.ktivs.net/dispeBook?file=99987-0062&lang_code=EN"
           }
         ]
@@ -822,7 +822,7 @@
             "alternatorOutput": 300,
             "alternatorOutputApprox": true,
             "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoadApprox": false,
             "manualUrl": "https://pws.ktivs.net/dispeBook?file=99803-0300&lang_code=EN"
           }
         ]
@@ -834,8 +834,8 @@
             "year": 2023,
             "alternatorOutput": 340,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 130,
+            "stockLoadApprox": false,
             "manualUrl": "https://pws.ktivs.net/dispeBook?file=99803-0334&lang_code=EN"
           }
         ]
@@ -847,8 +847,8 @@
             "year": 2023,
             "alternatorOutput": 300,
             "alternatorOutputApprox": true,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 120,
+            "stockLoadApprox": false,
             "manualUrl": "https://pws.ktivs.net/dispeBook?file=99803-0339&lang_code=EN"
           }
         ]
@@ -860,8 +860,8 @@
             "year": 2023,
             "alternatorOutput": 300,
             "alternatorOutputApprox": true,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 120,
+            "stockLoadApprox": false,
             "manualUrl": "https://pws.ktivs.net/dispeBook?file=99803-0339&lang_code=EN"
           }
         ]
@@ -873,8 +873,8 @@
             "year": 2024,
             "alternatorOutput": 340,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 110,
+            "stockLoadApprox": false,
             "manualUrl": "https://pws.ktivs.net/dispeBook?file=99803-0324&lang_code=EN"
           }
         ]
@@ -886,8 +886,8 @@
             "year": 2023,
             "alternatorOutput": 406,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 130,
+            "stockLoadApprox": false,
             "manualUrl": "https://pws.ktivs.net/dispeBook?file=99803-0317&lang_code=EN"
           }
         ]
@@ -899,8 +899,8 @@
             "year": 2023,
             "alternatorOutput": 336,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 110,
+            "stockLoadApprox": false,
             "manualUrl": "https://pws.ktivs.net/dispeBook?file=99803-0310&lang_code=EN"
           }
         ]
@@ -912,8 +912,8 @@
             "year": 2023,
             "alternatorOutput": 294,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 95,
+            "stockLoadApprox": false,
             "manualUrl": "https://pws.ktivs.net/dispeBook?file=99803-0309&lang_code=EN"
           }
         ]
@@ -925,8 +925,8 @@
             "year": 2023,
             "alternatorOutput": 300,
             "alternatorOutputApprox": true,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 90,
+            "stockLoadApprox": false,
             "manualUrl": "https://pws.ktivs.net/dispeBook?file=99803-0296&lang_code=EN"
           }
         ]
@@ -938,8 +938,8 @@
             "year": 2023,
             "alternatorOutput": 300,
             "alternatorOutputApprox": true,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 95,
+            "stockLoadApprox": false,
             "manualUrl": "https://pws.ktivs.net/dispeBook?file=99803-0299&lang_code=EN"
           }
         ]
@@ -952,7 +952,7 @@
             "alternatorOutput": 329,
             "alternatorOutputApprox": false,
             "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoadApprox": false,
             "manualUrl": "https://pws.ktivs.net/dispeBook?file=99803-0336&lang_code=EN"
           }
         ]
@@ -969,8 +969,8 @@
             "year": 2022,
             "alternatorOutput": 230,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 85,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.manualpdf.in/ktm/250-adventure-2022/manual?p=111"
           }
         ]
@@ -982,8 +982,8 @@
             "year": 2024,
             "alternatorOutput": 230,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 90,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.manualpdf.in/ktm/390-adventure-2024/manual?p=128"
           }
         ]
@@ -995,8 +995,8 @@
             "year": 2025,
             "alternatorOutput": 400,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 110,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.manualpdf.in/ktm/790-adventure-r-2025/manual?p=154"
           }
         ]
@@ -1008,8 +1008,8 @@
             "year": 2023,
             "alternatorOutput": 230,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 75,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.manualpdf.in/ktm/125-duke-2023/manual?p=104"
           }
         ]
@@ -1021,8 +1021,8 @@
             "year": 2020,
             "alternatorOutput": 230,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 80,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.manualpdf.in/ktm/200-duke-2020/manual?p=224"
           }
         ]
@@ -1034,8 +1034,8 @@
             "year": 2017,
             "alternatorOutput": 230,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 85,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.manualpdf.in/ktm/250-duke-2017/manual?p=164"
           }
         ]
@@ -1047,8 +1047,8 @@
             "year": 2024,
             "alternatorOutput": 230,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 85,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.manualpdf.in/ktm/390-duke-2024/manual?p=122"
           }
         ]
@@ -1060,8 +1060,8 @@
             "year": 2020,
             "alternatorOutput": 296,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 80,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.manualpdf.in/ktm/rc-200-2020/manual?p=217"
           }
         ]
@@ -1073,8 +1073,8 @@
             "year": 2023,
             "alternatorOutput": 296,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 85,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.manualpdf.in/ktm/rc-390-2023/manual?p=113"
           }
         ]
@@ -1092,7 +1092,7 @@
             "alternatorOutput": 350,
             "alternatorOutputApprox": false,
             "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.scribd.com/document/588798791/BSVI-Mojo-Owners-Manual"
           }
         ]
@@ -1109,8 +1109,8 @@
             "year": 2014,
             "alternatorOutput": 180,
             "alternatorOutputApprox": true,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 120,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.manualpdf.in/royal-enfield/bullet-350-twinspark-2014/manual?p=46"
           }
         ]
@@ -1122,8 +1122,8 @@
             "year": 2017,
             "alternatorOutput": 220,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 130,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.manualpdf.in/royal-enfield/classic-350-2017/manual?p=38"
           }
         ]
@@ -1135,8 +1135,8 @@
             "year": 2014,
             "alternatorOutput": 180,
             "alternatorOutputApprox": true,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 140,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.manualpdf.in/royal-enfield/classic-500-2014/manual?p=64"
           }
         ]
@@ -1149,7 +1149,7 @@
             "alternatorOutput": 156,
             "alternatorOutputApprox": false,
             "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.royalenfield.com/content/dam/open-pdf/royal-enfield-continental-gt-owners-manual-india.pdf"
           }
         ]
@@ -1161,8 +1161,8 @@
             "year": 2024,
             "alternatorOutput": 280,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 95,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.royalenfield.com/content/dam/open-pdf/royal-enfield-guerrilla-450-owners-manual.pdf"
           }
         ]
@@ -1174,8 +1174,8 @@
             "year": 2019,
             "alternatorOutput": 221,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true
+            "stockLoad": 130,
+            "stockLoadApprox": false
           }
         ]
       },
@@ -1186,8 +1186,8 @@
             "year": 2021,
             "alternatorOutput": 280,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 95,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.royalenfield.com/content/dam/open-pdf/royal-enfield-new-himalayan-450-owners-manual-bs-six-english.pdf"
           }
         ]
@@ -1199,8 +1199,8 @@
             "year": 2020,
             "alternatorOutput": 250,
             "alternatorOutputApprox": true,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 85,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.royalenfield.com/content/dam/open-pdf/royal-enfield-owners-manual-hunter-350_bsvi-english.pdf"
           }
         ]
@@ -1213,7 +1213,7 @@
             "alternatorOutput": 300,
             "alternatorOutputApprox": false,
             "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.royalenfield.com/content/dam/open-pdf/royal-enfield-interceptor-owners-manual-india.pdf"
           }
         ]
@@ -1225,8 +1225,8 @@
             "year": 2020,
             "alternatorOutput": 260,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 90,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.royalenfield.com/content/dam/open-pdf/royal-enfield-owners-manual-meteor-350-BSVI-english.pdf"
           }
         ]
@@ -1239,7 +1239,7 @@
             "alternatorOutput": 156,
             "alternatorOutputApprox": false,
             "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.royalenfield.com/content/dam/open-pdf/royal-enfield-shotgun-650-owners-manual-india.pdf"
           }
         ]
@@ -1252,7 +1252,7 @@
             "alternatorOutput": 156,
             "alternatorOutputApprox": false,
             "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.royalenfield.com/content/dam/open-pdf/royal-enfield-super_meteor_650_owners-manual-english.pdf"
           }
         ]
@@ -1264,8 +1264,8 @@
             "year": 2017,
             "alternatorOutput": 200,
             "alternatorOutputApprox": true,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 130,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.royalenfield.com/content/dam/re-platform-images/home/motorcycles/owners-manual/new-owners-manual/india/BS-IV-TB-350-X-ABS.pdf"
           }
         ]
@@ -1277,8 +1277,8 @@
             "year": 2019,
             "alternatorOutput": 165,
             "alternatorOutputApprox": true,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 140,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.royalenfield.com/content/dam/royal-enfield/OwnerManual/Thunderbird_500_Owners_Manual_Domestic.pdf"
           }
         ]
@@ -1296,7 +1296,7 @@
             "alternatorOutput": 300,
             "alternatorOutputApprox": true,
             "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoadApprox": false,
             "manualUrl": "https://d3rur0l55cri1p.cloudfront.net/uploads/sites/4/2023/09/DL800DEM4.pdf"
           }
         ]
@@ -1308,8 +1308,8 @@
             "year": 2022,
             "alternatorOutput": 220,
             "alternatorOutputApprox": true,
-            "stockLoad": 100,
-            "stockLoadApprox": true
+            "stockLoad": 90,
+            "stockLoadApprox": false
           }
         ]
       }
@@ -1325,8 +1325,8 @@
             "year": 2023,
             "alternatorOutput": 651,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 95,
+            "stockLoadApprox": false,
             "manualUrl": "https://api.triumphtechnicalinformation.com/handbooks/documents/6243072d3e77c397854c2afb/pdf"
           }
         ]
@@ -1338,8 +1338,8 @@
             "year": 2023,
             "alternatorOutput": 651,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 95,
+            "stockLoadApprox": false,
             "manualUrl": "https://api.triumphtechnicalinformation.com/handbooks/documents/6243072d3e77c397854c2afb/pdf"
           }
         ]
@@ -1352,7 +1352,7 @@
             "alternatorOutput": 651,
             "alternatorOutputApprox": false,
             "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoadApprox": false,
             "manualUrl": "https://api.triumphtechnicalinformation.com/handbooks/documents/6243072d3e77c397854c2afb/pdf"
           }
         ]
@@ -1364,8 +1364,8 @@
             "year": 2023,
             "alternatorOutput": 651,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 95,
+            "stockLoadApprox": false,
             "manualUrl": "https://api.triumphtechnicalinformation.com/handbooks/documents/665da831bfd27a35c5ea267f/pdf"
           }
         ]
@@ -1378,7 +1378,7 @@
             "alternatorOutput": 651,
             "alternatorOutputApprox": false,
             "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoadApprox": false,
             "manualUrl": "https://api.triumphtechnicalinformation.com/handbooks/documents/665da831bfd27a35c5ea267f/pdf"
           }
         ]
@@ -1390,8 +1390,8 @@
             "year": 2023,
             "alternatorOutput": 630,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 130,
+            "stockLoadApprox": false,
             "manualUrl": "https://api.triumphtechnicalinformation.com/handbooks/documents/6243160fd8d5a35cc9ac73b6/pdf"
           }
         ]
@@ -1403,8 +1403,8 @@
             "year": 2023,
             "alternatorOutput": 630,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 130,
+            "stockLoadApprox": false,
             "manualUrl": "https://api.triumphtechnicalinformation.com/handbooks/documents/6243160fd8d5a35cc9ac73b6/pdf"
           }
         ]
@@ -1416,8 +1416,8 @@
             "year": 2024,
             "alternatorOutput": 259,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 85,
+            "stockLoadApprox": false,
             "manualUrl": "https://api.triumphtechnicalinformation.com/handbooks/documents/6867af7b21b21b99236371e2/pdf"
           }
         ]
@@ -1429,8 +1429,8 @@
             "year": 2024,
             "alternatorOutput": 259,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 85,
+            "stockLoadApprox": false,
             "manualUrl": "https://api.triumphtechnicalinformation.com/handbooks/documents/6867af7b21b21b99236371e2/pdf"
           }
         ]
@@ -1442,8 +1442,8 @@
             "year": 2024,
             "alternatorOutput": 259,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 85,
+            "stockLoadApprox": false,
             "manualUrl": "https://api.triumphtechnicalinformation.com/handbooks/documents/6867af7b21b21b99236371e2/pdf"
           }
         ]
@@ -1455,8 +1455,8 @@
             "year": 2023,
             "alternatorOutput": 476,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 110,
+            "stockLoadApprox": false,
             "manualUrl": "https://api.triumphtechnicalinformation.com/handbooks/documents/62431a237d0365977fcf18be/pdf"
           }
         ]
@@ -1468,8 +1468,8 @@
             "year": 2023,
             "alternatorOutput": 476,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 110,
+            "stockLoadApprox": false,
             "manualUrl": "https://api.triumphtechnicalinformation.com/handbooks/documents/62431a237d0365977fcf18be/pdf"
           }
         ]
@@ -1481,8 +1481,8 @@
             "year": 2023,
             "alternatorOutput": 651,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 95,
+            "stockLoadApprox": false,
             "manualUrl": "https://api.triumphtechnicalinformation.com/handbooks/documents/665da831bfd27a35c5ea267f/pdf"
           }
         ]
@@ -1494,8 +1494,8 @@
             "year": 2023,
             "alternatorOutput": 651,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 95,
+            "stockLoadApprox": false,
             "manualUrl": "https://api.triumphtechnicalinformation.com/handbooks/documents/665da831bfd27a35c5ea267f/pdf"
           }
         ]
@@ -1507,8 +1507,8 @@
             "year": 2024,
             "alternatorOutput": 574,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 150,
+            "stockLoadApprox": false,
             "manualUrl": "https://api.triumphtechnicalinformation.com/handbooks/documents/65df249b6cc2da9200f93138/pdf"
           }
         ]
@@ -1520,8 +1520,8 @@
             "year": 2024,
             "alternatorOutput": 574,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 145,
+            "stockLoadApprox": false,
             "manualUrl": "https://api.triumphtechnicalinformation.com/handbooks/documents/65df249b6cc2da9200f93138/pdf"
           }
         ]
@@ -1533,8 +1533,8 @@
             "year": 2024,
             "alternatorOutput": 574,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 150,
+            "stockLoadApprox": false,
             "manualUrl": "https://api.triumphtechnicalinformation.com/handbooks/documents/65df249b6cc2da9200f93138/pdf"
           }
         ]
@@ -1546,8 +1546,8 @@
             "year": 2024,
             "alternatorOutput": 574,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 145,
+            "stockLoadApprox": false,
             "manualUrl": "https://api.triumphtechnicalinformation.com/handbooks/documents/65df249b6cc2da9200f93138/pdf"
           }
         ]
@@ -1560,7 +1560,7 @@
             "alternatorOutput": 406,
             "alternatorOutputApprox": false,
             "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoadApprox": false,
             "manualUrl": "https://api.triumphtechnicalinformation.com/handbooks/documents/68073f7ca12cfbea536e1843/pdf"
           }
         ]
@@ -1572,8 +1572,8 @@
             "year": 2024,
             "alternatorOutput": 476,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 115,
+            "stockLoadApprox": false,
             "manualUrl": "https://api.triumphtechnicalinformation.com/handbooks/documents/61e6d3a11a353b3bdf470d24/pdf"
           }
         ]
@@ -1585,8 +1585,8 @@
             "year": 2024,
             "alternatorOutput": 476,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 115,
+            "stockLoadApprox": false,
             "manualUrl": "https://api.triumphtechnicalinformation.com/handbooks/documents/61e6d3a11a353b3bdf470d24/pdf"
           }
         ]
@@ -1598,8 +1598,8 @@
             "year": 2024,
             "alternatorOutput": 476,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 120,
+            "stockLoadApprox": false,
             "manualUrl": "https://api.triumphtechnicalinformation.com/handbooks/documents/61e6d3a11a353b3bdf470d24/pdf"
           }
         ]
@@ -1611,8 +1611,8 @@
             "year": 2024,
             "alternatorOutput": 476,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 120,
+            "stockLoadApprox": false,
             "manualUrl": "https://api.triumphtechnicalinformation.com/handbooks/documents/61e6d3a11a353b3bdf470d24/pdf"
           }
         ]
@@ -1624,8 +1624,8 @@
             "year": 2023,
             "alternatorOutput": 406,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 95,
+            "stockLoadApprox": false,
             "manualUrl": "https://api.triumphtechnicalinformation.com/handbooks/documents/68073f7ca12cfbea536e1843/pdf"
           }
         ]
@@ -1638,7 +1638,7 @@
             "alternatorOutput": 434,
             "alternatorOutputApprox": false,
             "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoadApprox": false,
             "manualUrl": "https://api.triumphtechnicalinformation.com/handbooks/documents/68073f7ca12cfbea536e1843/pdf"
           }
         ]
@@ -1655,8 +1655,8 @@
             "year": 2023,
             "alternatorOutput": 290,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 85,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.tvsapache.com/pdf/Manuals-Apache-RR-310.pdf"
           }
         ]
@@ -1669,7 +1669,7 @@
             "alternatorOutput": 300,
             "alternatorOutputApprox": false,
             "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.tvsmotor.com/-/media/Feature/Owners/User-Manual-11-Apr-22/TVS-Apache-RTR-160-2V.pdf"
           }
         ]
@@ -1681,8 +1681,8 @@
             "year": 2023,
             "alternatorOutput": 290,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 85,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.tvsmotor.com/-/media/Feature/User-Manual-New-Folder/07-12-2023/TVS-Apache-RTR-310.pdf"
           }
         ]
@@ -1694,8 +1694,8 @@
             "year": 2024,
             "alternatorOutput": 130,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 70,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.tvsmotor.com/-/media/Feature/AfterAprilPdf/TVS-Jupiter-110--Drum--Drum-Alloy-OBD-IIB.pdf"
           }
         ]
@@ -1707,8 +1707,8 @@
             "year": 2024,
             "alternatorOutput": 130,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 75,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.tvsmotor.com/-/media/Feature/Owners/29-10-25/TVS-Jupiter-125---Alloy-Wheel.pdf"
           }
         ]
@@ -1720,8 +1720,8 @@
             "year": 2023,
             "alternatorOutput": 130,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 75,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.tvsmotor.com/-/media/Feature/Owners/31-03-23/TVS-Ntorq---Connected-cluster.pdf"
           }
         ]
@@ -1733,8 +1733,8 @@
             "year": 2023,
             "alternatorOutput": 230,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 80,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.tvsmotor.com/-/media/Feature/Owners/13-10-25/TVS-NTORQ-150.pdf"
           }
         ]
@@ -1746,8 +1746,8 @@
             "year": 2023,
             "alternatorOutput": 160,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 75,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.tvsmotor.com/customers/-/media/Brand-Pages/TVS-Raider/TVS-Raider---Owners-Manual.pdf"
           }
         ]
@@ -1759,8 +1759,8 @@
             "year": 2023,
             "alternatorOutput": 335,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 85,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.tvsmotor.com/-/media/Feature/AfterAprilPdf/TVS-Ronin.pdf"
           }
         ]
@@ -1772,8 +1772,8 @@
             "year": 2023,
             "alternatorOutput": 160,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 120,
+            "stockLoadApprox": false,
             "manualUrl": "https://www.tvsmotor.com/-/media/Feature/Owners/User-Manual-08-Mar/TVS-Sport.pdf?hash=6BF59948C7205A9BE4105569369780DC&la=en"
           }
         ]
@@ -1790,8 +1790,8 @@
             "year": 2020,
             "alternatorOutput": 162,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true
+            "stockLoad": 110,
+            "stockLoadApprox": false
           }
         ]
       },
@@ -1802,8 +1802,8 @@
             "year": 2023,
             "alternatorOutput": 165,
             "alternatorOutputApprox": true,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 85,
+            "stockLoadApprox": false,
             "manualUrl": "https://library.ymcapps.net/library/om/contents/pdf/10/BJE-F819V-E1_02.pdf"
           }
         ]
@@ -1815,8 +1815,8 @@
             "year": 2019,
             "alternatorOutput": 125,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true
+            "stockLoad": 90,
+            "stockLoadApprox": false
           }
         ]
       },
@@ -1827,8 +1827,8 @@
             "year": 2022,
             "alternatorOutput": 140,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true
+            "stockLoad": 85,
+            "stockLoadApprox": false
           }
         ]
       },
@@ -1839,8 +1839,8 @@
             "year": 2019,
             "alternatorOutput": 140,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 95,
+            "stockLoadApprox": false,
             "manualUrl": "https://library.ymcapps.net/library/om/contents/pdf/10/B9E-F8199-E1_02.pdf"
           }
         ]
@@ -1852,8 +1852,8 @@
             "year": 2022,
             "alternatorOutput": 140,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true
+            "stockLoad": 95,
+            "stockLoadApprox": false
           }
         ]
       },
@@ -1864,8 +1864,8 @@
             "year": 2022,
             "alternatorOutput": 140,
             "alternatorOutputApprox": false,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 95,
+            "stockLoadApprox": false,
             "manualUrl": "https://library.ymcapps.net/library/om/contents/pdf/10/BPD-F819V-E0_02.pdf"
           }
         ]
@@ -1877,8 +1877,8 @@
             "year": 2020,
             "alternatorOutput": 150,
             "alternatorOutputApprox": true,
-            "stockLoad": 100,
-            "stockLoadApprox": true,
+            "stockLoad": 85,
+            "stockLoadApprox": false,
             "manualUrl": "https://library.ymcapps.net/library/om/contents/pdf/10/DD4-F819V-E0_02.pdf"
           }
         ]
@@ -1896,7 +1896,7 @@
             "alternatorOutput": 300,
             "alternatorOutputApprox": true,
             "stockLoad": 100,
-            "stockLoadApprox": true
+            "stockLoadApprox": false
           }
         ]
       }

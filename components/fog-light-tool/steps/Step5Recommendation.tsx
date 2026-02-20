@@ -4,6 +4,7 @@ import { toBlob } from "html-to-image";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { api } from "@/convex/_generated/api";
+import { LoadStatusBar } from "../ui";
 import type { FogLight, Step5Props } from "../types";
 
 function luxToNumber(lux: string) {
@@ -38,8 +39,8 @@ function rankRidingStyleLights(
   const speedWeight: Record<string, number> = {
     "0-50": 0.8,
     "50-80": 1,
-    "80-110": 1.2,
-    "110+": 1.35,
+    "80-100": 1.2,
+    "100-140": 1.35,
   };
   const terrainWeight: Record<string, number> = {
     city: 0.85,
@@ -54,41 +55,41 @@ function rankRidingStyleLights(
   };
 
   return [...lights].sort((a, b) => {
+    const speedFactor = speedWeight[speed] ?? 1;
+    const terrainFactor = terrainWeight[terrain] ?? 1;
+    const fogFactor = fogWeight[fog] ?? 1;
     const aScore =
-      luxToNumber(a.lux) *
-        speedWeight[speed] *
-        terrainWeight[terrain] *
-        fogWeight[fog] -
+      luxToNumber(a.lux) * speedFactor * terrainFactor * fogFactor -
       a.loadWatts * 10;
     const bScore =
-      luxToNumber(b.lux) *
-        speedWeight[speed] *
-        terrainWeight[terrain] *
-        fogWeight[fog] -
+      luxToNumber(b.lux) * speedFactor * terrainFactor * fogFactor -
       b.loadWatts * 10;
     return bScore - aScore;
   });
 }
 
 function toFogLabel(fog: Step5Props["state"]["fogFrequency"]) {
+  if (!fog) return "-";
   if (fog === "frequently") return "High (Weekly)";
   if (fog === "occasionally") return "Medium";
   return "Low";
 }
 
 function toSpeedLabel(speed: Step5Props["state"]["speed"]) {
-  if (speed === "110+") return "110+ km/h";
+  if (!speed) return "-";
+  if (speed === "100-140") return "100-140 km/h";
   return `${speed} km/h`;
 }
 
 function toTerrainLabel(terrain: Step5Props["state"]["terrain"]) {
+  if (!terrain) return "-";
   const map = {
     city: "City / Urban",
     highway: "Highway / Touring",
     mixed: "Mixed / Touring",
     hilly: "Hilly / Curves",
   } as const;
-  return map[terrain];
+  return map[terrain] ?? "-";
 }
 
 function buildReportHtml({
@@ -113,7 +114,9 @@ function buildReportHtml({
     100,
     Math.max(
       0,
-      Math.round((featured.loadWatts / (availableOverhead + featured.loadWatts)) * 100),
+      Math.round(
+        (featured.loadWatts / (availableOverhead + featured.loadWatts)) * 100,
+      ),
     ),
   );
   const safeMargin = Math.max(0, availableOverhead - featured.loadWatts);
@@ -209,7 +212,9 @@ export default function Step5Recommendation({
   if (fogLights.length === 0) {
     return (
       <section className="space-y-5 pt-2">
-        <h2 className="text-4xl font-black tracking-tight">Recommended For You</h2>
+        <h2 className="text-4xl font-black tracking-tight">
+          Recommended For You
+        </h2>
         <div className="rounded-2xl border border-border-dark bg-surface-dark p-4 text-sm text-white/70">
           No lights available right now. Please try again in a moment.
         </div>
@@ -308,8 +313,8 @@ export default function Step5Recommendation({
   };
 
   return (
-    <section className="space-y-5 pt-2">
-      <div className="flex items-center justify-between">
+    <section className="space-y-5 pt-2 pb-20">
+      {/* <div className="flex items-center justify-between">
         <p className="text-xs font-black tracking-[0.18em] text-primary uppercase">
           Final Step
         </p>
@@ -317,9 +322,11 @@ export default function Step5Recommendation({
       </div>
       <div className="h-2 w-full rounded-full bg-border-dark">
         <div className="h-full w-full rounded-full bg-primary" />
-      </div>
+      </div> */}
 
-      <h2 className="text-3xl font-black tracking-tight">Recommended For You</h2>
+      <h2 className="text-3xl font-black tracking-tight">
+        Recommended For You
+      </h2>
 
       <div className="rounded-full bg-surface-dark p-1">
         <div className="grid grid-cols-2 gap-1">
@@ -327,7 +334,10 @@ export default function Step5Recommendation({
             className="relative rounded-full px-4 py-2.5 text-sm font-black"
             onClick={() => {
               setSlideDirection(-1);
-              void setState({ recommendationMode: "style", recommendationIndex: 0 });
+              void setState({
+                recommendationMode: "style",
+                recommendationIndex: 0,
+              });
             }}
           >
             {state.recommendationMode === "style" && (
@@ -347,7 +357,10 @@ export default function Step5Recommendation({
             className="relative rounded-full px-4 py-2.5 text-sm font-black"
             onClick={() => {
               setSlideDirection(1);
-              void setState({ recommendationMode: "capacity", recommendationIndex: 0 });
+              void setState({
+                recommendationMode: "capacity",
+                recommendationIndex: 0,
+              });
             }}
           >
             {state.recommendationMode === "capacity" && (
@@ -373,7 +386,11 @@ export default function Step5Recommendation({
         ) : (
           <>
             <div className="overflow-hidden">
-              <AnimatePresence initial={false} custom={slideDirection} mode="popLayout">
+              <AnimatePresence
+                initial={false}
+                custom={slideDirection}
+                mode="popLayout"
+              >
                 <motion.div
                   key={`top-${state.recommendationMode}-${featured?.id ?? "none"}-${boundedIndex}`}
                   custom={slideDirection}
@@ -398,31 +415,14 @@ export default function Step5Recommendation({
                       />
                     </div>
                   </div>
-
                   <div className="space-y-3 p-4">
-                    <div className="flex items-start justify-between gap-4">
-                      <div>
-                        <h3 className="text-2xl leading-none font-black uppercase">
-                          {featured.name}
-                        </h3>
-                        <p className="mt-2 text-xl text-white/70">
-                          Adaptive LED Illumination System
-                        </p>
-                      </div>
-                      <p className="text-right text-2xl leading-none font-black text-primary">
-                        {luxToNumber(featured.lux).toLocaleString()}
-                        <br />
-                        LUX
-                      </p>
-                    </div>
-
-                    <div className="space-y-2">
+                    <div className="space-y-2 flex flex-col">
                       <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1">
                         <span className="material-symbols-outlined text-sm text-emerald-400">
                           verified
                         </span>
                         <span className="text-xs font-bold text-emerald-300">
-                          Electrical Safety Approved
+                          Maintains Cruising Speed: {} km/h
                         </span>
                       </div>
                       <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1">
@@ -430,11 +430,46 @@ export default function Step5Recommendation({
                           cloud
                         </span>
                         <span className="text-xs font-bold text-blue-300">
-                          All-Weather Optimized
+                          Better Visibility in Rain & Foggy Conditions
+                        </span>
+                      </div>
+                      <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1">
+                        <span className="material-symbols-outlined text-sm text-emerald-400">
+                          brightness_4
+                        </span>
+                        <span className="text-xs font-bold text-emerald-300">
+                          Zero Glare for Oncoming Traffic <br />
+                          (100% Real Cutoff)
+                        </span>
+                      </div>
+                      <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1">
+                        <span className="material-symbols-outlined text-sm text-blue-300">
+                          power
+                        </span>
+                        <span className="text-xs font-bold  text-blue-300">
+                          Most Power Efficient Light <br />
+                          (1 Watt = 190 Lux Conversion)
                         </span>
                       </div>
                     </div>
                   </div>
+                  <div className="px-4 pb-3">
+                    <LoadStatusBar
+                      availableWatts={remainingWatts}
+                      usageWatts={featured.loadWatts}
+                    />
+                  </div>
+                  <a
+                    href={recommendedLightUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-primary py-3.5 text-xl font-black text-background-dark shadow-xl shadow-primary/30 transition-all hover:brightness-110 active:scale-95"
+                  >
+                    Buy Now
+                    <span className="material-symbols-outlined">
+                      arrow_forward
+                    </span>
+                  </a>
                 </motion.div>
               </AnimatePresence>
             </div>
@@ -453,7 +488,9 @@ export default function Step5Recommendation({
                   }}
                   aria-label="Previous recommendation"
                 >
-                  <span className="material-symbols-outlined">chevron_left</span>
+                  <span className="material-symbols-outlined">
+                    chevron_left
+                  </span>
                 </button>
                 <button
                   className="min-w-0 flex-1 rounded-xl px-3 py-2 text-center text-sm font-black text-primary"
@@ -467,7 +504,11 @@ export default function Step5Recommendation({
                   title="Click to cycle recommendations"
                 >
                   <span className="relative block overflow-hidden">
-                    <AnimatePresence initial={false} custom={slideDirection} mode="popLayout">
+                    <AnimatePresence
+                      initial={false}
+                      custom={slideDirection}
+                      mode="popLayout"
+                    >
                       <motion.span
                         key={`label-${state.recommendationMode}-${featured?.id ?? "none"}-${boundedIndex}`}
                         custom={slideDirection}
@@ -492,13 +533,19 @@ export default function Step5Recommendation({
                   }}
                   aria-label="Next recommendation"
                 >
-                  <span className="material-symbols-outlined">chevron_right</span>
+                  <span className="material-symbols-outlined">
+                    chevron_right
+                  </span>
                 </button>
               </div>
             </div>
 
             <div className="overflow-hidden">
-              <AnimatePresence initial={false} custom={slideDirection} mode="popLayout">
+              <AnimatePresence
+                initial={false}
+                custom={slideDirection}
+                mode="popLayout"
+              >
                 <motion.div
                   key={`spec-${state.recommendationMode}-${featured?.id ?? "none"}-${boundedIndex}`}
                   custom={slideDirection}
@@ -513,27 +560,42 @@ export default function Step5Recommendation({
                     Technical Specifications
                   </p>
                   <div className="grid grid-cols-2 gap-2.5">
-                    <SpecTile icon="wb_sunny" label="Light Intensity" value={featured.lux} />
-                    <SpecTile icon="thermostat" label="Color Temp" value="3000K/ 6000K" />
-                    <SpecTile icon="water_drop" label="Waterproof" value="IP68 Rating" />
-                    <SpecTile icon="schedule" label="Lifespan" value="50,000+ Hrs" />
-                    <SpecTile icon="construction" label="Housing Material" value="Aviation Alum." />
-                    <SpecTile icon="bolt" label="Voltage Range" value="9V - 24V DC" />
+                    <SpecTile
+                      icon="wb_sunny"
+                      label="Light Intensity"
+                      value={featured.lux}
+                    />
+                    <SpecTile
+                      icon="thermostat"
+                      label="Color Temp"
+                      value="3000K/ 6000K"
+                    />
+                    <SpecTile
+                      icon="water_drop"
+                      label="Waterproof"
+                      value="IP68 Rating"
+                    />
+                    <SpecTile
+                      icon="schedule"
+                      label="Lifespan"
+                      value="50,000+ Hrs"
+                    />
+                    <SpecTile
+                      icon="construction"
+                      label="Housing Material"
+                      value="Aviation Alum."
+                    />
+                    <SpecTile
+                      icon="bolt"
+                      label="Voltage Range"
+                      value="9V - 24V DC"
+                    />
                   </div>
                 </motion.div>
               </AnimatePresence>
             </div>
 
-            <div className="space-y-3 border-t border-border-dark pt-4">
-              <a
-                href={recommendedLightUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="flex w-full items-center justify-center gap-2 rounded-2xl bg-primary py-3.5 text-xl font-black text-background-dark shadow-xl shadow-primary/30 transition-all hover:brightness-110 active:scale-95"
-              >
-                Buy Now
-                <span className="material-symbols-outlined">arrow_forward</span>
-              </a>
+            <div className="fixed bottom-0 left-0 right-0 pb-4 bg-black">
               <button
                 onClick={() => void onSaveReport()}
                 disabled={isSavingReport}
@@ -545,7 +607,10 @@ export default function Step5Recommendation({
           </>
         )}
       </div>
-      <div ref={reportRenderRef} className="pointer-events-none fixed -top-[9999px] -left-[9999px]" />
+      <div
+        ref={reportRenderRef}
+        className="pointer-events-none fixed -top-2499.75 -left-2499.75"
+      />
     </section>
   );
 }
@@ -561,7 +626,9 @@ function SpecTile({
 }) {
   return (
     <div className="rounded-2xl border border-border-dark bg-surface-dark p-3.5">
-      <span className="material-symbols-outlined mb-2 text-primary">{icon}</span>
+      <span className="material-symbols-outlined mb-2 text-primary">
+        {icon}
+      </span>
       <p className="text-xs font-bold uppercase text-white/45">{label}</p>
       <p className="mt-2 text-xl font-black">{value}</p>
     </div>
