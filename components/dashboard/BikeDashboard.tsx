@@ -164,14 +164,14 @@ function DashboardLogin({
               />
               Sign In
             </label>
-            <label className="flex items-center gap-2">
+            {/* <label className="flex items-center gap-2">
               <input
                 type="radio"
                 checked={authMode === "signUp"}
                 onChange={() => setAuthMode("signUp")}
               />
               Sign Up
-            </label>
+            </label> */}
           </div>
           <button
             type="submit"
