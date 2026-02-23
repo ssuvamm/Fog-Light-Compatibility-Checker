@@ -1,4 +1,6 @@
 import { motion } from "framer-motion";
+import * as Tooltip from "@radix-ui/react-tooltip";
+import { useState } from "react";
 
 export function Risk({
   icon,
@@ -131,60 +133,183 @@ export function SpecCell({ label, value }: { label: string; value: string }) {
   );
 }
 
-export function LoadStatusBar({
-  availableWatts,
-  usageWatts,
+function TooltipContent({ text }: { text: string }) {
+  return (
+    <Tooltip.Portal>
+      <Tooltip.Content
+        side="top"
+        sideOffset={6}
+        className="z-50 rounded-md border border-white/15 bg-background-dark/95 px-2 py-1 text-[10px] font-bold text-white shadow-lg"
+      >
+        {text}
+      </Tooltip.Content>
+    </Tooltip.Portal>
+  );
+}
+
+export function ElectricalCapacityBar({
+  alternatorOutput,
+  stockLoad,
+  existingLoad,
+  recommendedWatts,
+  lightWatts,
+  statusLabel,
+  lightName,
 }: {
-  availableWatts: number;
-  usageWatts: number;
+  alternatorOutput: number;
+  stockLoad: number;
+  existingLoad: number;
+  recommendedWatts: number;
+  lightWatts?: number;
+  statusLabel?: string;
+  lightName?: string;
 }) {
-  const available = Math.max(0, Math.floor(availableWatts));
-  const usage = Math.max(0, Math.floor(usageWatts));
-  const usageInAvailablePct =
-    available > 0 ? Math.min(100, (usage / available) * 100) : usage > 0 ? 100 : 0;
-  const overloadPct =
-    available > 0
-      ? Math.max(0, Math.min(100, ((usage - available) / available) * 100))
-      : usage > 0
-        ? 100
-        : 0;
-  const status =
-    usage > available ? "Overloaded" : usage === available ? "Near Limit" : "Safe";
-  const statusClass =
-    status === "Overloaded"
-      ? "text-red-400"
-      : status === "Near Limit"
-        ? "text-amber-300"
-        : "text-emerald-400";
+  const [activeTooltip, setActiveTooltip] = useState<
+    "used" | "available" | "danger" | "light" | null
+  >(null);
+  const usedWatts = Math.max(0, stockLoad + existingLoad);
+  const availableWatts = Math.max(0, recommendedWatts);
+  const dangerWatts = Math.max(
+    15,
+    alternatorOutput - stockLoad - existingLoad - recommendedWatts,
+  );
+  const scale = Math.max(
+    1,
+    alternatorOutput,
+    usedWatts + availableWatts + dangerWatts,
+  );
+
+  const usedPct = (usedWatts / scale) * 100;
+  const availablePct = (availableWatts / scale) * 100;
+  const dangerPct = (dangerWatts / scale) * 100;
+
+  const lightUse = Math.max(0, Math.floor(lightWatts ?? 0));
+  const lightUseInsideAvailable = Math.min(availableWatts, lightUse);
+  const lightOverlayPct = (lightUseInsideAvailable / scale) * 100;
+  const lightStatus =
+    lightUse > availableWatts
+      ? "Overloaded"
+      : lightUse === availableWatts && lightUse > 0
+        ? "Near Limit"
+        : "Safe";
+  const status = statusLabel ?? lightStatus;
+  const statusClass = status.toLowerCase().includes("over")
+    ? "text-red-400"
+    : status.toLowerCase().includes("near")
+      ? "text-amber-300"
+      : status.toLowerCase().includes("safe")
+        ? "text-emerald-400"
+        : "text-primary";
 
   return (
-    <div className="space-y-2 rounded-xl border border-border-dark bg-background-dark/70 p-3">
-      <div className="flex items-center justify-between text-[10px] font-bold uppercase">
-        <span>Load Status</span>
-        <span className={statusClass}>{status}</span>
+    <Tooltip.Provider delayDuration={100}>
+      <div className="space-y-2">
+        <div className="flex items-center justify-between text-[10px] font-bold uppercase">
+          <span>Load Status</span>
+          <span className={statusClass}>{status}</span>
+        </div>
+        <div className="relative h-3 w-full cursor-pointer overflow-hidden rounded-full bg-white/10">
+          {usedPct > 0 && (
+            <Tooltip.Root
+              open={activeTooltip === "used"}
+              onOpenChange={(open) => setActiveTooltip(open ? "used" : null)}
+            >
+              <Tooltip.Trigger asChild>
+                <div
+                  className="absolute top-0 left-0 h-full cursor-help rounded-l-full bg-amber-500/70"
+                  style={{ width: `${usedPct}%` }}
+                  aria-label="Power used details"
+                  role="button"
+                  tabIndex={0}
+                  onClick={() =>
+                    setActiveTooltip((prev) =>
+                      prev === "used" ? null : "used",
+                    )
+                  }
+                />
+              </Tooltip.Trigger>
+              <TooltipContent
+                text={`System + existing load: ${Math.floor(usedWatts)}W`}
+              />
+            </Tooltip.Root>
+          )}
+          {availablePct > 0 && (
+            <Tooltip.Root
+              open={activeTooltip === "available"}
+              onOpenChange={(open) =>
+                setActiveTooltip(open ? "available" : null)
+              }
+            >
+              <Tooltip.Trigger asChild>
+                <div
+                  className="absolute top-0 h-full cursor-help bg-emerald-400"
+                  style={{ left: `${usedPct}%`, width: `${availablePct}%` }}
+                  aria-label="Available power details"
+                  role="button"
+                  tabIndex={0}
+                  onClick={() =>
+                    setActiveTooltip((prev) =>
+                      prev === "available" ? null : "available",
+                    )
+                  }
+                />
+              </Tooltip.Trigger>
+              <TooltipContent
+                text={`Available power: ${Math.floor(availableWatts)}W`}
+              />
+            </Tooltip.Root>
+          )}
+          {dangerPct > 0 && (
+            <Tooltip.Root
+              open={activeTooltip === "danger"}
+              onOpenChange={(open) => setActiveTooltip(open ? "danger" : null)}
+            >
+              <Tooltip.Trigger asChild>
+                <div
+                  className="absolute top-0 h-full cursor-help rounded-r-full bg-red-500"
+                  style={{
+                    left: `${usedPct + availablePct}%`,
+                    width: `${dangerPct}%`,
+                  }}
+                  aria-label="Danger zone details"
+                  role="button"
+                  tabIndex={0}
+                  onClick={() =>
+                    setActiveTooltip((prev) =>
+                      prev === "danger" ? null : "danger",
+                    )
+                  }
+                />
+              </Tooltip.Trigger>
+              <TooltipContent
+                text={`Danger zone: ${Math.floor(dangerWatts)}W`}
+              />
+            </Tooltip.Root>
+          )}
+          {lightOverlayPct > 0 && (
+            <Tooltip.Root
+              open={activeTooltip === "light"}
+              onOpenChange={(open) => setActiveTooltip(open ? "light" : null)}
+            >
+              <Tooltip.Trigger asChild>
+                <div
+                  className="absolute top-0 h-full cursor-help border border-yellow-100/90 bg-yellow-300/95 shadow-[0_0_22px_rgba(250,204,21,0.95)]"
+                  style={{ left: `${usedPct}%`, width: `${lightOverlayPct}%` }}
+                  aria-label="This light usage details"
+                  role="button"
+                  tabIndex={0}
+                  onClick={() =>
+                    setActiveTooltip((prev) =>
+                      prev === "light" ? null : "light",
+                    )
+                  }
+                />
+              </Tooltip.Trigger>
+              <TooltipContent text={`${lightName || "This"} light load: ${lightUse}W`} />
+            </Tooltip.Root>
+          )}
+        </div>
       </div>
-      <div className="relative h-2 w-full overflow-hidden rounded-full bg-white/10">
-        <div
-          className="absolute inset-0 bg-emerald-400"
-          title={`Available power: ${available}W`}
-        />
-        {overloadPct > 0 && (
-          <div
-            className="absolute top-0 right-0 h-full bg-red-500"
-            style={{ width: `${overloadPct}%` }}
-            title={`Excess over available: ${Math.max(0, usage - available)}W`}
-          />
-        )}
-        <div
-          className="absolute top-0 left-0 h-full bg-primary shadow-[0_0_12px_rgba(249,190,22,0.7)]"
-          style={{ width: `${usageInAvailablePct}%` }}
-          title={`This light usage: ${usage}W`}
-        />
-      </div>
-      <div className="flex items-center justify-between text-[10px] font-bold text-white/65 uppercase">
-        <span>Available: {available}W</span>
-        <span>This light: {usage}W</span>
-      </div>
-    </div>
+    </Tooltip.Provider>
   );
 }

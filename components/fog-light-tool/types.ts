@@ -85,4 +85,7 @@ export type Step5Props = {
   canRevealResults: boolean;
   fogLights: FogLight[];
   remainingWatts: number;
+  capacity: CapacityData;
+  reportId: string;
+  setReportId: (reportId: string) => Promise<unknown>;
 };

@@ -8,7 +8,7 @@ const TOOL_STATE_KEY = "tool-state";
 const VISITOR_ID_KEY = "visitor-id";
 const BIKE_CACHE_KEY = "bike-cache";
 
-export const BIKE_CACHE_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
+export const BIKE_CACHE_MAX_AGE_MS = 1 * 24 * 60 * 60 * 1000;
 export const BIKE_CACHE_SCHEMA_VERSION = 2;
 
 type StoredToolState = Omit<ToolState, "make" | "model" | "year">;

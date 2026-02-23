@@ -192,9 +192,9 @@ export default function Step2ElectricalEducation() {
   return (
     <section className="">
       <div className="pb-4 ">
-        <h2 className="text-2xl leading-tight font-black tracking-tight">
-          How Motorcycle Power <span className="text-primary">Actually</span>{" "}
-          Works
+        <h2 className="text-2xl text-center leading-tight font-black tracking-tight">
+          How Motorcycle Power <br />
+          <span className="text-primary">Actually</span> Works
         </h2>
       </div>
 
@@ -378,7 +378,7 @@ export default function Step2ElectricalEducation() {
               <button
                 type="button"
                 onClick={onKeyToggle}
-                className={`flex h-12 w-12 items-center justify-center rounded-full border-2 transition-all ${keyOn ? "border-amber-400 bg-zinc-800 text-amber-300" : "border-zinc-700 bg-zinc-800 text-zinc-500"}`}
+                className={`cursor-pointer flex h-12 w-12 items-center justify-center rounded-full border-2 transition-all ${keyOn ? "border-amber-400 bg-zinc-800 text-amber-300" : "border-zinc-700 bg-zinc-800 text-zinc-500"}`}
                 aria-label="Toggle vehicle key"
               >
                 <svg
@@ -405,7 +405,7 @@ export default function Step2ElectricalEducation() {
                 type="button"
                 onClick={onEngineToggle}
                 disabled={!keyOn}
-                className={`flex h-12 w-12 items-center justify-center rounded-full border-2 transition-all ${!keyOn ? "cursor-not-allowed border-zinc-800 bg-zinc-900 text-zinc-700" : engineOn ? "border-amber-400 bg-zinc-800 text-amber-300" : "border-zinc-700 bg-zinc-800 text-zinc-500"}`}
+                className={`flex h-12 w-12 items-center justify-center rounded-full border-2 transition-all ${!keyOn ? "cursor-not-allowed border-zinc-800 bg-zinc-900 text-zinc-700" : engineOn ? "cursor-pointer border-amber-400 bg-zinc-800 text-amber-300" : "cursor-pointer border-zinc-700 bg-zinc-800 text-zinc-500"}`}
                 aria-label="Toggle engine state"
               >
                 <svg
@@ -433,7 +433,7 @@ export default function Step2ElectricalEducation() {
                   type="button"
                   disabled={!keyOn}
                   onClick={() => onModeChange("system")}
-                  className={`flex-1 rounded border py-2 px-4 text-[9px] font-bold ${keyOn && loadMode === "system" ? "border-blue-500/50 bg-blue-500/20 text-blue-200" : "border-zinc-700 bg-zinc-800 text-zinc-400"}`}
+                  className={`flex-1 rounded border py-2 px-4 text-[9px] font-bold ${keyOn ? (loadMode === "system" ? "cursor-pointer border-blue-500/50 bg-blue-500/20 text-blue-200" : "cursor-pointer border-zinc-700 bg-zinc-800 text-zinc-400") : "cursor-not-allowed"}`}
                 >
                   SYSTEM
                 </button>
@@ -441,7 +441,7 @@ export default function Step2ElectricalEducation() {
                   type="button"
                   disabled={!keyOn}
                   onClick={() => onModeChange("normal")}
-                  className={`flex-1 rounded border py-2 px-4 text-[9px] font-bold ${keyOn && loadMode === "normal" ? "border-amber-500/50 bg-amber-500/20 text-amber-200" : "border-zinc-700 bg-zinc-800 text-zinc-400"}`}
+                  className={`flex-1 rounded border py-2 px-4 text-[9px] font-bold ${keyOn ? (loadMode === "normal" ? "cursor-pointer border-amber-500/50 bg-amber-500/20 text-amber-200" : "cursor-pointer border-zinc-700 bg-zinc-800 text-zinc-400") : "cursor-not-allowed"}`}
                 >
                   NORMAL
                 </button>
@@ -449,7 +449,7 @@ export default function Step2ElectricalEducation() {
                   type="button"
                   disabled={!keyOn}
                   onClick={() => onModeChange("excessive")}
-                  className={`flex-1 rounded border py-2 px-4 text-[9px] font-bold ${keyOn && loadMode === "excessive" ? "border-red-500/50 bg-red-500/20 text-red-200" : "border-zinc-700 bg-zinc-800 text-zinc-400"}`}
+                  className={`flex-1 rounded border py-2 px-4 text-[9px] font-bold ${keyOn ? (loadMode === "excessive" ? "cursor-pointer border-red-500/50 bg-red-500/20 text-red-200" : "cursor-pointer border-zinc-700 bg-zinc-800 text-zinc-400") : "cursor-not-allowed"}`}
                 >
                   EXCESSIVE
                 </button>
@@ -458,7 +458,7 @@ export default function Step2ElectricalEducation() {
           </div>
         </div>
       </div>
-      {/* 
+      {/*
       <p className="text-sm italic text-white/60">
         We analyzed real motorcycle electrical data to build this tool for
         riders.

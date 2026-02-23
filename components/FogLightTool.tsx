@@ -1,8 +1,10 @@
 "use client";
 
 import { api } from "@/convex/_generated/api";
+import type { Id } from "@/convex/_generated/dataModel";
 import fogLightsDataset from "@/data_manual/fog_lights_dataset.json";
 import { ConvexHttpClient } from "convex/browser";
+import { useQuery } from "convex/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { parseAsInteger, parseAsString, useQueryStates } from "nuqs";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -23,14 +25,6 @@ import Step3ElectricalCapacity from "./fog-light-tool/steps/Step3ElectricalCapac
 import Step4RidingPattern from "./fog-light-tool/steps/Step4RidingPattern";
 import Step5Recommendation from "./fog-light-tool/steps/Step5Recommendation";
 import type { Bike, FogLight, ToolState } from "./fog-light-tool/types";
-
-const STEP_TITLES: Record<1 | 2 | 3 | 4 | 5, string> = {
-  1: "Moto Light",
-  2: "Electrical Basics",
-  3: "Capacity Setup",
-  4: "Riding Pattern",
-  5: "Recommendation",
-};
 
 const DEFAULT_LOCAL_STATE: Omit<ToolState, "make" | "model" | "year"> = {
   step: 1,
@@ -67,6 +61,7 @@ export default function FogLightTool() {
       make: parseAsString.withDefault(""),
       model: parseAsString.withDefault(""),
       year: parseAsInteger.withDefault(0),
+      report: parseAsString.withDefault(""),
     },
     {
       history: "replace",
@@ -78,6 +73,11 @@ export default function FogLightTool() {
   const [isLocalStateHydrated, setIsLocalStateHydrated] = useState(false);
   const [bikeSource, setBikeSource] = useState<Bike[]>([]);
   const electricalCapacityRef = useRef<HTMLDivElement>(null);
+  const hydratedReportIdRef = useRef<string | null>(null);
+  const reportDocument = useQuery(
+    api.reports.getReportById,
+    queryState.report ? { id: queryState.report as Id<"reports"> } : "skip",
+  );
 
   const typedState = useMemo<ToolState>(
     () => ({
@@ -138,6 +138,43 @@ export default function FogLightTool() {
   }, [isLocalStateHydrated, localState]);
 
   useEffect(() => {
+    if (!isLocalStateHydrated) return;
+    if (!queryState.report) {
+      hydratedReportIdRef.current = null;
+      return;
+    }
+    if (reportDocument === undefined) return;
+    if (!reportDocument?.toolState) return;
+    if (hydratedReportIdRef.current === queryState.report) return;
+    hydratedReportIdRef.current = queryState.report;
+
+    const reportState = reportDocument.toolState;
+    void setQueryState({
+      make: reportState.make,
+      model: reportState.model,
+      year: reportState.year,
+      report: queryState.report,
+    });
+    setLocalState((previous) => ({
+      ...previous,
+      step: 5,
+      recommendationMode: reportState.recommendationMode,
+      recommendationIndex: reportState.recommendationIndex,
+      visitorId:
+        reportState.visitorId || previous.visitorId || createVisitorId(),
+      existingLoad: reportState.existingLoad,
+      fogFrequency: reportState.fogFrequency,
+      speed: reportState.speed,
+      terrain: reportState.terrain,
+      wearsGlasses: reportState.wearsGlasses,
+      leftEye: reportState.leftEye,
+      rightEye: reportState.rightEye,
+      beamColor: reportState.beamColor,
+      checkedUsage: reportState.checkedUsage,
+    }));
+  }, [isLocalStateHydrated, queryState.report, reportDocument, setQueryState]);
+
+  useEffect(() => {
     let isCancelled = false;
     const loadBikeData = async () => {
       try {
@@ -181,7 +218,7 @@ export default function FogLightTool() {
         setLocalState(resetState);
         await Promise.all([
           clearStoredToolState(),
-          setQueryState({ make: "", model: "", year: 0 }),
+          setQueryState({ make: "", model: "", year: 0, report: "" }),
         ]);
         return;
       }
@@ -290,8 +327,14 @@ export default function FogLightTool() {
   }, [currentStep, canRevealResults]);
 
   const goToStep = (step: number) => void setState({ step: clampStep(step) });
+  const setReportId = useCallback(
+    async (reportId: string) => {
+      await setQueryState({ report: reportId });
+    },
+    [setQueryState],
+  );
   const isRidingPatternComplete = Boolean(
-    typedState.fogFrequency && typedState.speed && typedState.terrain,
+    typedState.fogFrequency && typedState.speed && typedState.terrain && typedState.wearsGlasses ? (typedState.leftEye && typedState.rightEye) : true,
   );
   const canGoNext =
     currentStep === 3
@@ -303,8 +346,42 @@ export default function FogLightTool() {
   return (
     <main className="mx-auto min-h-screen w-full max-w-xl space-y-6 px-4 pt-6 ">
       <header className="relative flex items-center justify-center py-2">
+        {currentStep === 5 && (
+          <button
+            onClick={() => {
+              goToStep(4);
+            }}
+            className="absolute top-1/2 left-0 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-xl bg-white text-background-dark shadow-lg shadow-white/10 transition-all hover:brightness-110 active:scale-95"
+            aria-label="Start over from step 1"
+            title="Start over"
+          >
+            <span className="material-symbols-outlined text-[20px] font-bold">
+              chevron_left
+            </span>
+            <p className="sr-only">Back</p>
+          </button>
+        )}
         <div className="text-center">
-          <p className="text-lg font-bold">{STEP_TITLES[currentStep]}</p>
+          <div className="relative flex gap-[4px]">
+            <img
+              src="/LuxFit logo.svg"
+              alt="LuxFit by Lumevo Logo"
+              width={130}
+              height={32}
+              className="mx-auto h-6 w-auto"
+            />
+            {/* <Image
+              src="/Lumevo Logos RAW-2.svg"
+              alt="Lumevo"
+              width={96}
+              height={28}
+              className="-ml-1 h-5 w-auto mt-2"
+              priority
+            /> */}
+            <span className="absolute right-0 -top-[75%] text-xs text-white/70">
+              Beta
+            </span>
+          </div>
           <p className="text-xs text-white/50">Step {currentStep} of 5</p>
         </div>
         {currentStep === 5 && (
@@ -316,9 +393,12 @@ export default function FogLightTool() {
             aria-label="Start over from step 1"
             title="Start over"
           >
-            <span className="material-symbols-outlined text-[20px]">
-              restart_alt
-            </span>
+            <div className="flex flex-col items-center">
+              <span className="material-symbols-outlined text-[20px]">
+                restart_alt
+              </span>
+              <p className="text-xs text-center text-black/80">Redo</p>
+            </div>
           </button>
         )}
       </header>
@@ -374,6 +454,20 @@ export default function FogLightTool() {
               canRevealResults={canRevealResults}
               fogLights={fogLightSource}
               remainingWatts={safeMargin}
+              capacity={{
+                alternatorOutput,
+                alternatorOutputApprox,
+                stockLoad,
+                stockLoadApprox,
+                safeMargin,
+                safeMarginApprox: derivedApprox,
+                recommendedMax,
+                recommendedMaxApprox: derivedApprox,
+                loadPercent,
+                status,
+              }}
+              reportId={queryState.report}
+              setReportId={setReportId}
             />
           )}
         </motion.section>

@@ -1,15 +1,11 @@
-import { AnimatePresence, motion, type Transition } from "framer-motion";
-import { useMutation } from "convex/react";
-import { toBlob } from "html-to-image";
-import Image from "next/image";
-import { useRef, useState } from "react";
 import { api } from "@/convex/_generated/api";
-import { LoadStatusBar } from "../ui";
+import { useMutation } from "convex/react";
+import { AnimatePresence, motion, type Transition } from "framer-motion";
+import { toBlob } from "html-to-image";
+import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
+import { rankRidingStyleLights } from "../logic/ridingStyleRecommendations";
 import type { FogLight, Step5Props } from "../types";
-
-function luxToNumber(lux: string) {
-  return Number(lux.replace(/[^0-9]/g, "")) || 0;
-}
+import { ElectricalCapacityBar } from "../ui";
 
 function withUtmSource(url: string) {
   try {
@@ -19,53 +15,6 @@ function withUtmSource(url: string) {
   } catch {
     return url;
   }
-}
-
-function escapeHtml(value: string) {
-  return value
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#39;");
-}
-
-function rankRidingStyleLights(
-  lights: FogLight[],
-  speed: string,
-  terrain: string,
-  fog: string,
-) {
-  const speedWeight: Record<string, number> = {
-    "0-50": 0.8,
-    "50-80": 1,
-    "80-100": 1.2,
-    "100-140": 1.35,
-  };
-  const terrainWeight: Record<string, number> = {
-    city: 0.85,
-    highway: 1.2,
-    mixed: 1,
-    hilly: 1.1,
-  };
-  const fogWeight: Record<string, number> = {
-    no: 0.9,
-    occasionally: 1,
-    frequently: 1.15,
-  };
-
-  return [...lights].sort((a, b) => {
-    const speedFactor = speedWeight[speed] ?? 1;
-    const terrainFactor = terrainWeight[terrain] ?? 1;
-    const fogFactor = fogWeight[fog] ?? 1;
-    const aScore =
-      luxToNumber(a.lux) * speedFactor * terrainFactor * fogFactor -
-      a.loadWatts * 10;
-    const bScore =
-      luxToNumber(b.lux) * speedFactor * terrainFactor * fogFactor -
-      b.loadWatts * 10;
-    return bScore - aScore;
-  });
 }
 
 function toFogLabel(fog: Step5Props["state"]["fogFrequency"]) {
@@ -92,124 +41,603 @@ function toTerrainLabel(terrain: Step5Props["state"]["terrain"]) {
   return map[terrain] ?? "-";
 }
 
-function buildReportHtml({
-  reportCode,
+function getCruisingSpeed(name: string) {
+  const key = name.toLowerCase();
+  if (key.includes("x1")) return "Upto 100 km/h";
+  if (key.includes("x2")) return "Upto 140 km/h";
+  return "-";
+}
+
+function computeReportStats({
   state,
   featured,
-  remainingWatts,
+  capacity,
 }: {
-  reportCode: string;
   state: Step5Props["state"];
   featured: FogLight;
-  remainingWatts: number;
+  capacity: Step5Props["capacity"];
 }) {
-  const now = new Date();
-  const dateText = now.toLocaleDateString("en-US", {
-    month: "short",
-    day: "2-digit",
-    year: "numeric",
-  });
-  const availableOverhead = Math.max(0, Math.floor(remainingWatts));
-  const capacityUtilization = Math.min(
-    100,
-    Math.max(
-      0,
-      Math.round(
-        (featured.loadWatts / (availableOverhead + featured.loadWatts)) * 100,
-      ),
-    ),
+  const usedWatts = Math.max(0, capacity.stockLoad + state.existingLoad);
+  const availableWatts = Math.max(0, Math.floor(capacity.recommendedMax));
+  const dangerWatts = Math.max(
+    0,
+    capacity.alternatorOutput -
+      capacity.stockLoad -
+      state.existingLoad -
+      capacity.recommendedMax,
   );
-  const safeMargin = Math.max(0, availableOverhead - featured.loadWatts);
-  const status = safeMargin > 0 ? "Optimal" : "Near Limit";
+  const scale = Math.max(
+    1,
+    capacity.alternatorOutput,
+    usedWatts + availableWatts + dangerWatts,
+  );
+  const usedPct = (usedWatts / scale) * 100;
+  const availablePct = (availableWatts / scale) * 100;
+  const dangerPct = (dangerWatts / scale) * 100;
 
-  return `
-  <div style="width:640px;background:#07090d;color:#f5f7fb;font-family:Arial,sans-serif;padding:20px;line-height:1.25">
-    <div style="border:1px solid #23262f;border-radius:18px;background:linear-gradient(180deg,#151821,#0d0f15);padding:18px">
-      <div style="font-size:14px;color:#94a3b8;text-transform:uppercase;letter-spacing:0.16em">Your Lumevo Report Card</div>
-      <div style="margin-top:8px;font-size:13px;color:#9aa4b2">ID: #${escapeHtml(reportCode)} • ${escapeHtml(dateText)}</div>
-      <div style="margin-top:12px;display:inline-block;padding:6px 10px;border-radius:999px;background:#072d1b;border:1px solid #0f5e36;color:#20df8f;font-size:12px;font-weight:700;letter-spacing:0.08em">ANALYSIS COMPLETE</div>
-      <div style="margin-top:14px;border:1px solid #2a2f3a;border-radius:14px;padding:12px;background:#171b24">
-        <div style="font-size:12px;color:#8ea0b8;letter-spacing:0.12em;text-transform:uppercase">Motorcycle Summary</div>
-        <div style="margin-top:10px;display:flex;gap:24px">
-          <div><div style="font-size:12px;color:#8ea0b8">Make</div><div style="font-size:30px;font-weight:800">${escapeHtml(state.make || "-")}</div></div>
-          <div><div style="font-size:12px;color:#8ea0b8">Model</div><div style="font-size:30px;font-weight:800">${escapeHtml(state.model || "-")}</div></div>
-          <div><div style="font-size:12px;color:#8ea0b8">Year</div><div style="font-size:30px;font-weight:800">${state.year || "-"}</div></div>
-        </div>
-      </div>
-      <div style="margin-top:14px;border:1px solid #2a2f3a;border-radius:14px;padding:12px;background:#171b24">
-        <div style="display:flex;justify-content:space-between;align-items:flex-end">
-          <div style="font-size:12px;color:#8ea0b8;letter-spacing:0.12em;text-transform:uppercase">Electrical Health Analysis</div>
-          <div style="font-size:24px;color:#f9be16;font-weight:800">Status: ${escapeHtml(status)}</div>
-        </div>
-        <div style="margin-top:8px;display:flex;justify-content:space-between">
-          <div style="font-size:24px">Capacity Utilization</div>
-          <div style="font-size:24px;font-weight:800">${capacityUtilization}% <span style="color:#8ea0b8;font-weight:500">/ 100%</span></div>
-        </div>
-        <div style="margin-top:8px;height:16px;border-radius:999px;background:#232938;overflow:hidden">
-          <div style="height:16px;width:${capacityUtilization}%;background:#f9be16"></div>
-        </div>
-        <div style="margin-top:4px;display:flex;justify-content:space-between;font-size:12px;color:#f9be16;font-weight:700">
-          <span>CURRENT LOAD</span>
-          <span>AVAILABLE OVERHEAD (${availableOverhead}W)</span>
-        </div>
-        <div style="margin-top:12px;display:flex;gap:10px">
-          <div style="flex:1;border:1px solid #2a2f3a;border-radius:12px;padding:10px;background:#141922">
-            <div style="font-size:12px;color:#8ea0b8;text-transform:uppercase;letter-spacing:0.08em">Alternator Output</div>
-            <div style="font-size:28px;font-weight:800">${Math.max(0, availableOverhead + 100)}W</div>
+  const lightUse = Math.max(0, Math.floor(featured.loadWatts));
+  const lightUseInsideAvailable = Math.min(availableWatts, lightUse);
+  const lightOverlayPct = (lightUseInsideAvailable / scale) * 100;
+  const status =
+    lightUse > availableWatts
+      ? "Overloaded"
+      : lightUse === availableWatts && lightUse > 0
+        ? "Near Limit"
+        : "Safe";
+  const statusColor =
+    status === "Overloaded"
+      ? "#f87171"
+      : status === "Near Limit"
+        ? "#fcd34d"
+        : "#34d399";
+  const safeMargin = Math.max(0, availableWatts - lightUse);
+
+  return {
+    availableWatts,
+    availablePct,
+    dangerPct,
+    dangerWatts,
+    lightOverlayPct,
+    lightUse,
+    safeMargin,
+    status,
+    statusColor,
+    usedPct,
+    usedWatts,
+  };
+}
+
+const reportTextStyle = {
+  color: "#8ea0b8",
+  fontSize: 12,
+  letterSpacing: "0.08em",
+  textTransform: "uppercase" as const,
+};
+
+const HiddenReportCard = forwardRef<
+  HTMLDivElement,
+  {
+    state: Step5Props["state"];
+    featured: FogLight;
+    capacity: Step5Props["capacity"];
+  }
+>(function HiddenReportCard({ state, featured, capacity }, ref) {
+  const {
+    availablePct,
+    availableWatts,
+    dangerPct,
+    dangerWatts,
+    lightOverlayPct,
+    lightUse,
+    safeMargin,
+    status,
+    statusColor,
+    usedPct,
+    usedWatts,
+  } = computeReportStats({ state, featured, capacity });
+
+  return (
+    <div
+      ref={ref}
+      style={{
+        width: 640,
+        background: "#07090d",
+        color: "#f5f7fb",
+        fontFamily: "Arial,sans-serif",
+        padding: 20,
+        lineHeight: 1.25,
+      }}
+    >
+      <div
+        style={{
+          border: "1px solid #23262f",
+          borderRadius: 18,
+          background: "linear-gradient(180deg,#151821,#0d0f15)",
+          padding: 18,
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            gap: 12,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <div
+            style={{
+              fontSize: 14,
+              color: "#94a3b8",
+              textTransform: "uppercase",
+              letterSpacing: "0.16em",
+            }}
+          >
+            Your LuxFit Report Card
           </div>
-          <div style="flex:1;border:1px solid #2a2f3a;border-radius:12px;padding:10px;background:#141922">
-            <div style="font-size:12px;color:#8ea0b8;text-transform:uppercase;letter-spacing:0.08em">Safe Margin</div>
-            <div style="font-size:28px;font-weight:800;color:#f9be16">${safeMargin}W</div>
+          <div
+            style={{
+              padding: "6px 10px",
+              borderRadius: 999,
+              background: "#072d1b",
+              border: "1px solid #0f5e36",
+              color: "#20df8f",
+              fontSize: 12,
+              fontWeight: 700,
+              letterSpacing: "0.08em",
+            }}
+          >
+            ANALYSIS COMPLETE
           </div>
         </div>
-      </div>
-      <div style="margin-top:14px;display:flex;gap:10px">
-        <div style="flex:1;border:1px solid #2a2f3a;border-radius:14px;padding:12px;background:#171b24">
-          <div style="font-size:12px;color:#8ea0b8;text-transform:uppercase;letter-spacing:0.08em">Fog Frequency</div>
-          <div style="margin-top:6px;font-size:28px;font-weight:800">${escapeHtml(toFogLabel(state.fogFrequency))}</div>
+        <div
+          style={{
+            marginTop: 14,
+            border: "1px solid #2a2f3a",
+            borderRadius: 14,
+            padding: 12,
+            background: "#171b24",
+          }}
+        >
+          <div
+            style={{
+              fontSize: 12,
+              color: "#8ea0b8",
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
+            }}
+          >
+            Motorcycle Summary
+          </div>
+          <div style={{ marginTop: 10, display: "flex", gap: 24 }}>
+            <div>
+              <div style={{ fontSize: 12, color: "#8ea0b8" }}>Make</div>
+              <div style={{ fontSize: 30, fontWeight: 800 }}>
+                {state.make || "-"}
+              </div>
+            </div>
+            <div>
+              <div style={{ fontSize: 12, color: "#8ea0b8" }}>Model</div>
+              <div style={{ fontSize: 30, fontWeight: 800 }}>
+                {state.model || "-"}
+              </div>
+            </div>
+            <div>
+              <div style={{ fontSize: 12, color: "#8ea0b8" }}>Year</div>
+              <div style={{ fontSize: 30, fontWeight: 800 }}>
+                {state.year || "-"}
+              </div>
+            </div>
+          </div>
         </div>
-        <div style="flex:1;border:1px solid #2a2f3a;border-radius:14px;padding:12px;background:#171b24">
-          <div style="font-size:12px;color:#8ea0b8;text-transform:uppercase;letter-spacing:0.08em">Average Speed</div>
-          <div style="margin-top:6px;font-size:28px;font-weight:800">${escapeHtml(toSpeedLabel(state.speed))}</div>
+        <div
+          style={{
+            marginTop: 14,
+            border: "1px solid #2a2f3a",
+            borderRadius: 14,
+            padding: 12,
+            background: "#171b24",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-end",
+            }}
+          >
+            <div
+              style={{
+                fontSize: 12,
+                color: "#8ea0b8",
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+              }}
+            >
+              Electrical Health Analysis
+            </div>
+            <div style={{ fontSize: 24, color: statusColor, fontWeight: 800 }}>
+              Status: {status}
+            </div>
+          </div>
+          <div
+            style={{
+              marginTop: 10,
+              display: "flex",
+              justifyContent: "space-between",
+              fontSize: 12,
+              fontWeight: 700,
+              textTransform: "uppercase",
+            }}
+          >
+            <span>Load Status</span>
+          </div>
+          <div
+            style={{
+              marginTop: 8,
+              position: "relative",
+              height: 16,
+              borderRadius: 999,
+              background: "rgba(255,255,255,0.1)",
+              overflow: "hidden",
+            }}
+          >
+            {usedPct > 0 && (
+              <div
+                style={{
+                  position: "absolute",
+                  left: 0,
+                  top: 0,
+                  height: "100%",
+                  width: `${usedPct}%`,
+                  background: "rgba(245,158,11,0.75)",
+                }}
+              />
+            )}
+            {availablePct > 0 && (
+              <div
+                style={{
+                  position: "absolute",
+                  left: `${usedPct}%`,
+                  top: 0,
+                  height: "100%",
+                  width: `${availablePct}%`,
+                  background: "#34d399",
+                }}
+              />
+            )}
+            {dangerPct > 0 && (
+              <div
+                style={{
+                  position: "absolute",
+                  left: `${usedPct + availablePct}%`,
+                  top: 0,
+                  height: "100%",
+                  width: `${dangerPct}%`,
+                  background: "#ef4444",
+                }}
+              />
+            )}
+            {lightOverlayPct > 0 && (
+              <div
+                style={{
+                  position: "absolute",
+                  left: `${usedPct}%`,
+                  top: 0,
+                  height: "100%",
+                  width: `${lightOverlayPct}%`,
+                  border: "1px solid rgba(254,240,138,0.9)",
+                  background: "rgba(253,224,71,0.95)",
+                }}
+              />
+            )}
+          </div>
+          <div
+            style={{
+              marginTop: 8,
+              display: "flex",
+              gap: 10,
+              fontSize: 11,
+              fontWeight: 700,
+            }}
+          >
+            <span style={{ color: "#f59e0b" }}>
+              Used: {Math.floor(usedWatts)}W
+            </span>
+            <span style={{ color: "rgba(253,224,71,0.95)" }}>
+              {featured?.name || "Featured"} Light Load: {lightUse}W
+            </span>
+            <span style={{ color: "#34d399" }}>
+              Available after light: {Math.floor(availableWatts - lightUse)}W
+            </span>
+            <span style={{ color: "#ef4444" }}>
+              Danger: {Math.floor(dangerWatts)}W
+            </span>
+          </div>
+          <div style={{ marginTop: 12, display: "flex", gap: 10 }}>
+            <div
+              style={{
+                flex: 1,
+                border: "1px solid #2a2f3a",
+                borderRadius: 12,
+                padding: 10,
+                background: "#141922",
+              }}
+            >
+              <div style={reportTextStyle}>Alternator Output</div>
+              <div style={{ fontSize: 28, fontWeight: 800 }}>
+                {Math.max(0, Math.floor(capacity.alternatorOutput))}W
+              </div>
+            </div>
+            <div
+              style={{
+                flex: 1,
+                border: "1px solid #2a2f3a",
+                borderRadius: 12,
+                padding: 10,
+                background: "#141922",
+              }}
+            >
+              <div style={reportTextStyle}>
+                {featured?.name || "Featured"} Light Load
+              </div>
+              <div style={{ fontSize: 28, fontWeight: 800, color: "#facc15" }}>
+                {lightUse}W
+              </div>
+            </div>
+            <div
+              style={{
+                flex: 1,
+                border: "1px solid #2a2f3a",
+                borderRadius: 12,
+                padding: 10,
+                background: "#141922",
+              }}
+            >
+              <div style={reportTextStyle}>Safe Margin</div>
+              <div style={{ fontSize: 28, fontWeight: 800, color: "#f9be16" }}>
+                {safeMargin}W
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div style="margin-top:10px;border:1px solid #2a2f3a;border-radius:14px;padding:12px;background:#171b24">
-        <div style="font-size:12px;color:#8ea0b8;text-transform:uppercase;letter-spacing:0.08em">Terrain Choice</div>
-        <div style="margin-top:6px;font-size:28px;font-weight:800">${escapeHtml(toTerrainLabel(state.terrain))}</div>
-      </div>
-      <div style="margin-top:14px;border:1px solid #f9be16;border-radius:14px;padding:12px;background:#171b24">
-        <div style="font-size:12px;color:#8ea0b8;letter-spacing:0.12em;text-transform:uppercase">Recommended Light</div>
-        <div style="margin-top:10px;display:flex;justify-content:center">
-          <img src="${escapeHtml(featured.imageUrl)}" style="width:250px;height:250px;object-fit:contain;border-radius:14px" />
+        <div style={{ marginTop: 14, display: "flex", gap: 10 }}>
+          <div
+            style={{
+              flex: 1,
+              border: "1px solid #2a2f3a",
+              borderRadius: 14,
+              padding: 12,
+              background: "#171b24",
+            }}
+          >
+            <div style={reportTextStyle}>Fog Frequency</div>
+            <div style={{ marginTop: 6, fontSize: 28, fontWeight: 800 }}>
+              {toFogLabel(state.fogFrequency)}
+            </div>
+          </div>
+          <div
+            style={{
+              flex: 1,
+              border: "1px solid #2a2f3a",
+              borderRadius: 14,
+              padding: 12,
+              background: "#171b24",
+            }}
+          >
+            <div style={reportTextStyle}>Average Speed</div>
+            <div style={{ marginTop: 6, fontSize: 28, fontWeight: 800 }}>
+              {toSpeedLabel(state.speed)}
+            </div>
+          </div>
         </div>
-        <div style="margin-top:10px;font-size:46px;font-weight:900;text-align:center">${escapeHtml(featured.name)}</div>
-        <div style="margin-top:8px;text-align:center;color:#9aa4b2;font-size:24px">Engineered for ${escapeHtml(state.make || "your bike")} with optimized electrical safety.</div>
-        <div style="margin-top:12px;border-top:1px solid #2a2f3a;padding-top:10px">
-          <div style="display:flex;justify-content:space-between;font-size:22px"><span style="color:#8ea0b8">Peak Brightness</span><span style="font-weight:800">${escapeHtml(featured.lux)}</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:22px;margin-top:6px"><span style="color:#8ea0b8">Power Consumption</span><span style="font-weight:800">${featured.loadWatts}W / Pair</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:22px;margin-top:6px"><span style="color:#8ea0b8">Weather Rating</span><span style="font-weight:800">IP68 Certified</span></div>
+        <div
+          style={{
+            marginTop: 10,
+            border: "1px solid #2a2f3a",
+            borderRadius: 14,
+            padding: 12,
+            background: "#171b24",
+          }}
+        >
+          <div style={reportTextStyle}>Terrain Choice</div>
+          <div style={{ marginTop: 6, fontSize: 28, fontWeight: 800 }}>
+            {toTerrainLabel(state.terrain)}
+          </div>
+        </div>
+        <div
+          style={{
+            marginTop: 14,
+            border: "1px solid #f9be16",
+            borderRadius: 14,
+            padding: 12,
+            background: "#171b24",
+          }}
+        >
+          <div
+            style={{
+              fontSize: 12,
+              color: "#8ea0b8",
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
+            }}
+          >
+            Recommended Light
+          </div>
+          <div
+            style={{ marginTop: 10, display: "flex", justifyContent: "center" }}
+          >
+            <img
+              src={featured.imageUrl}
+              alt={featured.name}
+              style={{
+                width: 250,
+                height: 250,
+                objectFit: "contain",
+                borderRadius: 14,
+              }}
+            />
+          </div>
+          <div
+            style={{
+              marginTop: 10,
+              fontSize: 46,
+              fontWeight: 900,
+              textAlign: "center",
+            }}
+          >
+            {featured.name}
+          </div>
+          <div
+            style={{
+              marginTop: 8,
+              textAlign: "center",
+              color: "#9aa4b2",
+              fontSize: 24,
+            }}
+          >
+            Engineered for {state.make || "your bike"}{" "}
+            {state.model || "your bike"} with optimized electrical safety.
+          </div>
+          <div
+            style={{
+              marginTop: 12,
+              borderTop: "1px solid #2a2f3a",
+              paddingTop: 10,
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                fontSize: 22,
+              }}
+            >
+              <span style={{ color: "#8ea0b8" }}>Peak Brightness</span>
+              <span style={{ fontWeight: 800 }}>{featured.lux}</span>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                fontSize: 22,
+                marginTop: 6,
+              }}
+            >
+              <span style={{ color: "#8ea0b8" }}>Power Consumption</span>
+              <span style={{ fontWeight: 800 }}>
+                {featured.loadWatts}W / Pair
+              </span>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                fontSize: 22,
+                marginTop: 6,
+              }}
+            >
+              <span style={{ color: "#8ea0b8" }}>Weather Rating</span>
+              <span style={{ fontWeight: 800 }}>IP68 Certified</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>`;
-}
+  );
+});
 
 export default function Step5Recommendation({
   state,
   setState,
   canRevealResults,
   fogLights,
-  remainingWatts,
+  capacity,
+  reportId,
+  setReportId,
 }: Step5Props) {
   const [slideDirection, setSlideDirection] = useState<1 | -1>(1);
-  const [isSavingReport, setIsSavingReport] = useState(false);
-  const reportRenderRef = useRef<HTMLDivElement>(null);
+  const [activeReportAction, setActiveReportAction] = useState<
+    "share" | "whatsapp" | null
+  >(null);
+  const reportRef = useRef<HTMLDivElement>(null);
+  const preloadedImageUrlsRef = useRef<Set<string>>(new Set());
   const saveVisitorReport = useMutation(api.reports.saveVisitorReport);
+
+  const budget = Math.max(0, Math.floor(capacity.recommendedMax));
+  const fittingLights = fogLights
+    .filter((light) => light.loadWatts <= budget)
+    .sort((a, b) => b.rating - a.rating);
+  const ridingStyleLights = rankRidingStyleLights(fogLights, {
+    terrain: state.terrain,
+    speed: state.speed,
+    wearsGlasses: state.wearsGlasses,
+    leftEye: state.leftEye,
+    rightEye: state.rightEye,
+  });
+  const list =
+    state.recommendationMode === "capacity" ? fittingLights : ridingStyleLights;
+  const boundedIndex = Math.min(
+    Math.max(state.recommendationIndex ?? 0, 0),
+    Math.max(list.length - 1, 0),
+  );
+  const featured = list[boundedIndex] ?? fogLights[0] ?? null;
+  const swipeTransition: Transition = {
+    type: "spring",
+    stiffness: 180,
+    damping: 26,
+    mass: 0.8,
+  };
+  // const swipeTransition: Transition = {
+  //   type: "tween",
+  //   duration: 0.38,
+  //   ease: [0.33, 1, 0.68, 1], // smooth deceleration curve
+  // };
+  const swipeVariants = {
+    enter: (direction: 1 | -1) => ({
+      x: direction * 24,
+      opacity: 0,
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+    },
+    exit: (direction: 1 | -1) => ({
+      x: direction * -24,
+      opacity: 0,
+    }),
+  };
+  const preloadReportImage = useCallback(async (url: string) => {
+    if (!url || preloadedImageUrlsRef.current.has(url)) return;
+
+    await new Promise<void>((resolve) => {
+      const image = new window.Image();
+      let settled = false;
+      const settle = () => {
+        if (settled) return;
+        settled = true;
+        resolve();
+      };
+
+      image.crossOrigin = "anonymous";
+      image.decoding = "async";
+      image.onload = settle;
+      image.onerror = settle;
+      image.src = url;
+
+      if (image.complete) settle();
+    });
+
+    preloadedImageUrlsRef.current.add(url);
+  }, []);
+
+  useEffect(() => {
+    void preloadReportImage(featured?.imageUrl ?? "");
+  }, [featured?.imageUrl, preloadReportImage]);
 
   if (!canRevealResults) {
     return null;
   }
-  if (fogLights.length === 0) {
+  if (!featured) {
     return (
       <section className="space-y-5 pt-2">
         <h2 className="text-4xl font-black tracking-tight">
@@ -221,76 +649,66 @@ export default function Step5Recommendation({
       </section>
     );
   }
-
-  const budget = Math.max(0, Math.floor(remainingWatts));
-  const fittingLights = fogLights
-    .filter((light) => light.loadWatts <= budget)
-    .sort((a, b) => b.rating - a.rating);
-  const ridingStyleLights = rankRidingStyleLights(
-    fogLights,
-    state.speed,
-    state.terrain,
-    state.fogFrequency,
-  );
-  const list =
-    state.recommendationMode === "capacity" ? fittingLights : ridingStyleLights;
-  const boundedIndex = Math.min(
-    Math.max(state.recommendationIndex ?? 0, 0),
-    Math.max(list.length - 1, 0),
-  );
-  const featured = list[boundedIndex] ?? fogLights[0];
-  const swipeTransition: Transition = {
-    type: "spring",
-    stiffness: 420,
-    damping: 38,
-    mass: 0.7,
-  };
-  const swipeVariants = {
-    enter: (direction: 1 | -1) => ({ x: direction * 52, opacity: 1 }),
-    center: { x: 0, opacity: 1 },
-    exit: (direction: 1 | -1) => ({ x: direction * -52, opacity: 1 }),
-  };
   const recommendedLightUrl = withUtmSource(featured.shopUrl);
 
-  const onSaveReport = async () => {
-    if (isSavingReport) return;
-    setIsSavingReport(true);
-    try {
-      const reportCode = `${new Date().getFullYear()}-${state.visitorId.slice(0, 6)}`;
-      const reportHtml = buildReportHtml({
-        reportCode,
-        state,
-        featured,
-        remainingWatts,
-      });
-
-      await saveVisitorReport({
-        visitorId: state.visitorId,
-        html: reportHtml,
-      });
-
-      const renderRoot = reportRenderRef.current;
-      if (!renderRoot) throw new Error("Report renderer unavailable.");
-      renderRoot.innerHTML = reportHtml;
-      const node = renderRoot.firstElementChild as HTMLElement | null;
-      if (!node) throw new Error("Failed to render report template.");
-
-      const blob = await toBlob(node, {
-        pixelRatio: 2,
-        cacheBust: true,
-        backgroundColor: "#07090d",
-      });
-      if (!blob) throw new Error("Failed to generate report image.");
-
-      const file = new File([blob], `lumevo-report-${reportCode}.png`, {
-        type: "image/png",
-      });
-      const shareText = `Lumevo report for ${state.make} ${state.model} (${state.year})`;
-      const fallbackWhatsappUrl = withUtmSource(
-        `https://wa.me/919875646946?text=${encodeURIComponent(
-          `${shareText}\nAttached via Moto Tool.`,
-        )}`,
+  const createReportFile = async () => {
+    if (!featured) throw new Error("No light available for report.");
+    await preloadReportImage(featured.imageUrl);
+    const resolvedReportId =
+      reportId ||
+      String(
+        (
+          await saveVisitorReport({
+            visitorId: state.visitorId,
+            html: reportRef.current?.outerHTML ?? "",
+            toolState: {
+              ...state,
+              step: 5,
+              recommendationIndex: boundedIndex,
+            },
+            capacity,
+            featuredLight: featured,
+          })
+        ).id,
       );
+    if (!reportId) {
+      await setReportId(resolvedReportId);
+    }
+
+    const reportNode = reportRef.current;
+    if (!reportNode) throw new Error("Report renderer unavailable.");
+
+    const blob = await toBlob(reportNode, {
+      pixelRatio: window.devicePixelRatio > 1 ? 1.2 : 1,
+      cacheBust: true,
+      backgroundColor: "#07090d",
+      skipFonts: true,
+      type: "image/jpeg",
+      quality: 0.92,
+    });
+    if (!blob) throw new Error("Failed to generate report image.");
+
+    const reportCode =
+      resolvedReportId.replace(/[^a-zA-Z0-9_-]/g, "").slice(-12) ||
+      `${new Date().getFullYear()}-${state.visitorId.slice(0, 6)}`;
+    const reportUrl = new URL(window.location.href);
+    reportUrl.searchParams.set("report", resolvedReportId);
+
+    return {
+      reportCode,
+      file: new File([blob], `luxFit-report-${reportCode}.jpg`, {
+        type: "image/jpeg",
+      }),
+      shareText: `LuxFit report for ${state.make} ${state.model} (${state.year})`,
+      reportUrl: reportUrl.toString(),
+    };
+  };
+
+  const onShareReport = async () => {
+    if (activeReportAction) return;
+    setActiveReportAction("share");
+    try {
+      const { file } = await createReportFile();
 
       if (
         navigator.canShare &&
@@ -298,17 +716,52 @@ export default function Step5Recommendation({
         navigator.share
       ) {
         await navigator.share({
-          title: "Lumevo Report",
-          text: shareText,
+          title: "LuxFit Report",
+          text: `Checked my fog light requirement ✅\nThis actually looks legit for my ride 🏍️\nBro, run yours too 👇\n${window.location.hostname}`,
           files: [file],
         });
       } else {
-        window.open(fallbackWhatsappUrl, "_blank", "noopener,noreferrer");
+        const fileUrl = URL.createObjectURL(file);
+        const anchor = document.createElement("a");
+        anchor.href = fileUrl;
+        anchor.download = file.name;
+        anchor.click();
+        URL.revokeObjectURL(fileUrl);
       }
     } catch (error) {
       console.error(error);
     } finally {
-      setIsSavingReport(false);
+      setActiveReportAction(null);
+    }
+  };
+
+  const onShareWhatsapp = async () => {
+    if (activeReportAction) return;
+    setActiveReportAction("whatsapp");
+    try {
+      const { file, shareText, reportUrl } = await createReportFile();
+      const whatsappText = `${shareText}\n${reportUrl}`;
+      const whatsappUrl = withUtmSource(
+        `https://wa.me/919875646946?text=${encodeURIComponent(whatsappText)}`,
+      );
+
+      // if (
+      //   navigator.canShare &&
+      //   navigator.canShare({ files: [file] }) &&
+      //   navigator.share
+      // ) {
+      //   await navigator.share({
+      //     title: "LuxFit by Lumevo Report",
+      //     text: whatsappText,
+      //     files: [file],
+      //   });
+      // } else {
+        window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+      // }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setActiveReportAction(null);
     }
   };
 
@@ -348,7 +801,7 @@ export default function Step5Recommendation({
               />
             )}
             <span
-              className={`relative z-10 ${state.recommendationMode === "style" ? "text-background-dark" : "text-white/65"}`}
+              className={`relative text-xs z-10 ${state.recommendationMode === "style" ? "text-background-dark" : "text-white/65"}`}
             >
               Based on Riding Style
             </span>
@@ -371,7 +824,7 @@ export default function Step5Recommendation({
               />
             )}
             <span
-              className={`relative z-10 ${state.recommendationMode === "capacity" ? "text-background-dark" : "text-white/65"}`}
+              className={`relative text-xs z-10 ${state.recommendationMode === "capacity" ? "text-background-dark" : "text-white/65"}`}
             >
               Based on Capacity
             </span>
@@ -402,11 +855,14 @@ export default function Step5Recommendation({
                   className="overflow-hidden rounded-3xl border border-border-dark bg-surface-dark"
                 >
                   <div className="relative border-b border-border-dark bg-background-dark p-4">
-                    <div className="absolute top-4 right-4 z-3 rounded-full bg-primary px-3 py-1 text-[10px] font-black text-background-dark uppercase">
-                      Premium
-                    </div>
+                    {state.recommendationMode === "style" &&
+                      boundedIndex === 0 && (
+                        <div className="absolute top-4 right-4 z-3 rounded-full bg-primary px-3 py-1 text-[10px] font-black text-background-dark uppercase">
+                          Best suited for you & your riding style
+                        </div>
+                      )}
                     <div className="relative h-56 w-full">
-                      <Image
+                      <img
                         alt={featured.name}
                         className="h-full w-full object-contain"
                         src={featured.imageUrl}
@@ -422,7 +878,8 @@ export default function Step5Recommendation({
                           verified
                         </span>
                         <span className="text-xs font-bold text-emerald-300">
-                          Maintains Cruising Speed: {} km/h
+                          Maintains Cruising Speed:{" "}
+                          {getCruisingSpeed(featured.name)}
                         </span>
                       </div>
                       <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1">
@@ -448,22 +905,28 @@ export default function Step5Recommendation({
                         </span>
                         <span className="text-xs font-bold  text-blue-300">
                           Most Power Efficient Light <br />
-                          (1 Watt = 190 Lux Conversion)
+                          (1 Watt = upto 220 Lux Conversion)
                         </span>
                       </div>
                     </div>
                   </div>
                   <div className="px-4 pb-3">
-                    <LoadStatusBar
-                      availableWatts={remainingWatts}
-                      usageWatts={featured.loadWatts}
-                    />
+                    <div className="mb-6">
+                      <ElectricalCapacityBar
+                        alternatorOutput={capacity.alternatorOutput}
+                        stockLoad={capacity.stockLoad}
+                        existingLoad={state.existingLoad}
+                        recommendedWatts={capacity.recommendedMax}
+                          lightWatts={featured.loadWatts}
+                          lightName={featured.name}
+                      />
+                    </div>
                   </div>
                   <a
                     href={recommendedLightUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-primary py-3.5 text-xl font-black text-background-dark shadow-xl shadow-primary/30 transition-all hover:brightness-110 active:scale-95"
+                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-primary py-3 text-base font-black text-background-dark shadow-xl shadow-primary/30 transition-all hover:brightness-110 active:scale-95"
                   >
                     Buy Now
                     <span className="material-symbols-outlined">
@@ -476,15 +939,15 @@ export default function Step5Recommendation({
 
             <div className="space-y-3">
               <p className="text-[10px] font-black tracking-[0.18em] text-white/55 uppercase">
-                Recommended Light
+                Recommended Light {boundedIndex + 1} of {list.length}
               </p>
               <div className="flex items-center gap-2 rounded-2xl bg-surface-dark p-1">
                 <button
                   className="flex h-10 w-10 items-center justify-center rounded-xl text-white/70 disabled:opacity-35"
-                  disabled={boundedIndex === 0}
+                  // disabled={boundedIndex === 0}
                   onClick={() => {
                     setSlideDirection(-1);
-                    void setState({ recommendationIndex: boundedIndex - 1 });
+                    void setState({ recommendationIndex: boundedIndex > 0 ? boundedIndex - 1 : list.length - 1 });
                   }}
                   aria-label="Previous recommendation"
                 >
@@ -526,10 +989,10 @@ export default function Step5Recommendation({
                 </button>
                 <button
                   className="flex h-10 w-10 items-center justify-center rounded-xl text-white/70 disabled:opacity-35"
-                  disabled={boundedIndex >= list.length - 1}
+                  // disabled={boundedIndex >= list.length - 1}
                   onClick={() => {
                     setSlideDirection(1);
-                    void setState({ recommendationIndex: boundedIndex + 1 });
+                    void setState({ recommendationIndex: boundedIndex < list.length - 1 ? boundedIndex + 1 : 0 });
                   }}
                   aria-label="Next recommendation"
                 >
@@ -566,6 +1029,11 @@ export default function Step5Recommendation({
                       value={featured.lux}
                     />
                     <SpecTile
+                      icon="speed"
+                      label="Cruising Speed"
+                      value={getCruisingSpeed(featured.name)}
+                    />
+                    <SpecTile
                       icon="thermostat"
                       label="Color Temp"
                       value="3000K/ 6000K"
@@ -595,22 +1063,68 @@ export default function Step5Recommendation({
               </AnimatePresence>
             </div>
 
-            <div className="fixed bottom-0 left-0 right-0 pb-4 bg-black">
-              <button
-                onClick={() => void onSaveReport()}
-                disabled={isSavingReport}
-                className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl border border-emerald-500/50 bg-emerald-950/40 py-3.5 text-xl font-bold text-emerald-400 shadow-lg shadow-emerald-500/10 transition-all hover:brightness-110 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {isSavingReport ? "Generating Report..." : "Save My Report"}
-              </button>
+            <div className="fixed bottom-0 left-0 right-0 bg-black px-4 pb-4 max-w-xl mx-auto">
+              <div className="mt-3 grid grid-cols-2 gap-3">
+                <button
+                  onClick={() => void onShareReport()}
+                  disabled={activeReportAction !== null}
+                  className="flex w-full items-center justify-center gap-2 rounded-2xl border border-sky-500/50 bg-sky-950/40 py-3.5 text-sm font-bold text-sky-300 shadow-lg shadow-sky-500/10 transition-all hover:brightness-110 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  <span className="material-symbols-outlined text-base">
+                    ios_share
+                  </span>
+                  {activeReportAction === "share"
+                    ? "Preparing..."
+                    : "Share Report"}
+                </button>
+                <button
+                  onClick={() => void onShareWhatsapp()}
+                  disabled={activeReportAction !== null}
+                  className="flex w-full items-center justify-center gap-2 rounded-2xl border border-emerald-500/50 bg-emerald-950/40 py-3.5 text-sm font-bold text-emerald-400 shadow-lg shadow-emerald-500/10 transition-all hover:brightness-110 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 48 48"
+                    version="1.1"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g
+                      id="Icons"
+                      stroke="none"
+                      strokeWidth="1"
+                      fill="none"
+                      fillRule="evenodd"
+                    >
+                      <g
+                        id="Color-"
+                        transform="translate(-700.000000, -360.000000)"
+                        fill="#67C15E"
+                      >
+                        <path
+                          d="M723.993033,360 C710.762252,360 700,370.765287 700,383.999801 C700,389.248451 701.692661,394.116025 704.570026,398.066947 L701.579605,406.983798 L710.804449,404.035539 C714.598605,406.546975 719.126434,408 724.006967,408 C737.237748,408 748,397.234315 748,384.000199 C748,370.765685 737.237748,360.000398 724.006967,360.000398 L723.993033,360.000398 L723.993033,360 Z M717.29285,372.190836 C716.827488,371.07628 716.474784,371.034071 715.769774,371.005401 C715.529728,370.991464 715.262214,370.977527 714.96564,370.977527 C714.04845,370.977527 713.089462,371.245514 712.511043,371.838033 C711.806033,372.557577 710.056843,374.23638 710.056843,377.679202 C710.056843,381.122023 712.567571,384.451756 712.905944,384.917648 C713.258648,385.382743 717.800808,392.55031 724.853297,395.471492 C730.368379,397.757149 732.00491,397.545307 733.260074,397.27732 C735.093658,396.882308 737.393002,395.527239 737.971421,393.891043 C738.54984,392.25405 738.54984,390.857171 738.380255,390.560912 C738.211068,390.264652 737.745308,390.095816 737.040298,389.742615 C736.335288,389.389811 732.90737,387.696673 732.25849,387.470894 C731.623543,387.231179 731.017259,387.315995 730.537963,387.99333 C729.860819,388.938653 729.198006,389.89831 728.661785,390.476494 C728.238619,390.928051 727.547144,390.984595 726.969123,390.744481 C726.193254,390.420348 724.021298,389.657798 721.340985,387.273388 C719.267356,385.42535 717.856938,383.125756 717.448104,382.434484 C717.038871,381.729275 717.405907,381.319529 717.729948,380.938852 C718.082653,380.501232 718.421026,380.191036 718.77373,379.781688 C719.126434,379.372738 719.323884,379.160897 719.549599,378.681068 C719.789645,378.215575 719.62006,377.735746 719.450874,377.382942 C719.281687,377.030139 717.871269,373.587317 717.29285,372.190836 Z"
+                          id="Whatsapp"
+                        ></path>
+                      </g>
+                    </g>
+                  </svg>
+                  {activeReportAction === "whatsapp"
+                    ? "Saving Report"
+                    : "Save Report"}
+                </button>
+              </div>
             </div>
           </>
         )}
       </div>
-      <div
-        ref={reportRenderRef}
-        className="pointer-events-none fixed -top-2499.75 -left-2499.75"
-      />
+      <div className="pointer-events-none fixed -top-2499.75 -left-2499.75">
+        <HiddenReportCard
+          ref={reportRef}
+          state={state}
+          featured={featured}
+          capacity={capacity}
+        />
+      </div>
     </section>
   );
 }

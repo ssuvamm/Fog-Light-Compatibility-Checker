@@ -175,7 +175,7 @@ export default function Step4RidingPattern({ state, setState, canRevealResults }
                 eyeglasses_2
               </span>
               <span className="font-bold">
-                Do You Wear Glasses for Distance?
+                Do You Wear Glasses for far Vision?
               </span>
             </div>
             <div className="flex items-center gap-2">
@@ -211,7 +211,7 @@ export default function Step4RidingPattern({ state, setState, canRevealResults }
               >
                 <p className="text-xs text-white/60">
                   Distance vision affects how your eyes perceive light patterns.
-                  Provide your power for an optimized beam angle recommendation.
+                  Provide your negative power for an optimized beam angle recommendation.
                 </p>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1">

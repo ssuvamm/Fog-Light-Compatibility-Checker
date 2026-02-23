@@ -36,7 +36,7 @@ export default function Step1Introduction({
         <Risk icon="bolt" color="text-blue-400" text="Voltage instability" />
       </div>
       <button
-        className="flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-primary py-4 text-base font-black text-background-dark shadow-lg shadow-primary/20 transition-all active:scale-[0.98]  fixed right-0 bottom-1 left-0 mb-4 mx-2"
+        className="flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-primary py-4 text-base font-black text-background-dark shadow-lg shadow-primary/20 transition-all active:scale-[0.98]  fixed right-0 bottom-1 left-0 mb-4 mx-auto max-w-xl"
         onClick={onPrimaryAction}
       >
         Check Your Safe Watt Capacity

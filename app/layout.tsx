@@ -10,9 +10,58 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "MotoLight - Fog Light Selection Tool",
+  title: {
+    default: "LuxFit by Lumevo | Motorcycle Fog Light Compatibility Tool",
+    template: "%s | LuxFit by Lumevo",
+  },
   description:
-    "Check safe watt capacity and configure motorcycle fog light recommendations.",
+    "Check safe electrical capacity, compare load usage, and get motorcycle fog light compatibility recommendations.",
+  applicationName: "LuxFit by Lumevo",
+  keywords: [
+    "LuxFit by Lumevo",
+    "motorcycle fog light compatibility",
+    "motorcycle electrical capacity calculator",
+    "bike fog light wattage checker",
+    "aux light load calculator",
+  ],
+  authors: [{ name: "Lumevo" }],
+  creator: "Lumevo",
+  publisher: "Lumevo",
+  metadataBase: new URL("https://apps.lumevo.in"),
+  alternates: {
+    canonical: "/",
+  },
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/LuxFit logo.svg", type: "image/svg+xml" },
+    ],
+    shortcut: ["/icon.svg"],
+    apple: ["/icon.svg"],
+  },
+  openGraph: {
+    title: "LuxFit by Lumevo | Motorcycle Fog Light Compatibility Tool",
+    description:
+      "Check safe electrical capacity, compare load usage, and get motorcycle fog light compatibility recommendations.",
+    type: "website",
+    siteName: "LuxFit by Lumevo",
+    url: "/",
+    images: [
+      {
+        url: "/og-card.png",
+        width: 1200,
+        height: 630,
+        alt: "LuxFit by Lumevo report",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "LuxFit by Lumevo | Motorcycle Fog Light Compatibility Tool",
+    description:
+      "Check safe electrical capacity, compare load usage, and get motorcycle fog light compatibility recommendations.",
+    images: ["/og-card.png"],
+  },
 };
 
 export default function RootLayout({

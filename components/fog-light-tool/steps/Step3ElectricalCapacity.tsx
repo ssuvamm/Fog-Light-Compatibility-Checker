@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { CapacityCell } from "../ui";
+import { CapacityCell, ElectricalCapacityBar } from "../ui";
 import type { Step3Props } from "../types";
 
 export default function Step3ElectricalCapacity({
@@ -15,43 +15,23 @@ export default function Step3ElectricalCapacity({
   electricalCapacityRef,
 }: Step3Props) {
   const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
-  const [activeCapacityTooltip, setActiveCapacityTooltip] = useState<
-    "used" | "recommended" | "danger" | null
-  >(null);
   const [requestMake, setRequestMake] = useState("");
   const [requestModel, setRequestModel] = useState("");
   const [requestYear, setRequestYear] = useState("");
-  const usedWatts = Math.max(0, capacity.stockLoad + state.existingLoad);
-  const recommendedWatts = Math.max(0, capacity.recommendedMax);
-  const rawDangerZoneWatts =
-    capacity.alternatorOutput -
-    capacity.stockLoad -
-    state.existingLoad -
-    capacity.recommendedMax;
-  const dangerZoneWatts = Math.max(0, rawDangerZoneWatts);
-  const barScale = Math.max(
-    1,
-    capacity.alternatorOutput,
-    usedWatts + recommendedWatts + dangerZoneWatts,
-  );
-  const usedPercent = (usedWatts / barScale) * 100;
-  const recommendedPercent = (recommendedWatts / barScale) * 100;
-  const dangerPercent = (dangerZoneWatts / barScale) * 100;
-  const usedTooltipLeft = Math.max(8, Math.min(92, usedPercent / 2));
-  const recommendedTooltipLeft = Math.max(
-    8,
-    Math.min(92, usedPercent + recommendedPercent / 2),
-  );
-  const dangerTooltipLeft = Math.max(
-    8,
-    Math.min(92, usedPercent + recommendedPercent + dangerPercent / 2),
-  );
+  const [isInaccuracyModalOpen, setIsInaccuracyModalOpen] = useState(false);
+  const [inaccuracyDescription, setInaccuracyDescription] = useState("");
 
   const requestText = useMemo(() => {
     return encodeURIComponent(
       `Hi, I can't find my motorcycle in the tool.\nMake: ${requestMake || "-"}\nModel: ${requestModel || "-"}\nProduction Year: ${requestYear || "-"}`,
     );
   }, [requestMake, requestModel, requestYear]);
+
+  const inaccuracyText = useMemo(() => {
+    return encodeURIComponent(
+      `Hi, I found a potential inaccuracy in the electrical capacity results.\nDescription: ${inaccuracyDescription || "-"}\nPage URL: ${typeof window === "undefined" ? "-" : window.location.href}`,
+    );
+  }, [inaccuracyDescription]);
 
   return (
     <>
@@ -219,11 +199,6 @@ export default function Step3ElectricalCapacity({
             id="your-electrical-capacity"
             ref={electricalCapacityRef}
           >
-            <div className="absolute top-0 right-0 p-4 opacity-5">
-              <span className="material-symbols-outlined text-8xl">
-                analytics
-              </span>
-            </div>
             <h3 className="mb-4 text-xs font-black tracking-widest text-primary uppercase">
               Your Electrical Capacity
             </h3>
@@ -252,91 +227,24 @@ export default function Step3ElectricalCapacity({
               />
             </div>
             <div className="mt-6 border-t border-border-dark pt-4">
-              <div className="mb-2 flex items-center justify-between text-[10px] font-bold uppercase">
-                <span>Load Status</span>
-                <span className={"text-primary"}>{capacity.status}</span>
-              </div>
-              <div className="relative">
-                <div className="flex h-2 w-full overflow-hidden rounded-full bg-white/10">
-                  <motion.button
-                    type="button"
-                    className={`h-full bg-primary ${usedPercent >= 100 ? "rounded-full" : "rounded-l-full"} ${usedPercent <= 0 ? "pointer-events-none" : "cursor-pointer"}`}
-                    initial={{ width: 0 }}
-                    animate={{ width: `${usedPercent}%` }}
-                    transition={{ duration: 1, ease: "easeInOut" }}
-                    onClick={() =>
-                      setActiveCapacityTooltip((prev) =>
-                        prev === "used" ? null : "used",
-                      )
-                    }
-                    aria-label="Power used"
-                  />
-                  <motion.button
-                    type="button"
-                    className={`h-full bg-emerald-400 ${recommendedPercent <= 0 ? "pointer-events-none" : "cursor-pointer"}`}
-                    initial={{ width: 0 }}
-                    animate={{ width: `${recommendedPercent}%` }}
-                    transition={{ duration: 1, ease: "easeInOut" }}
-                    onClick={() =>
-                      setActiveCapacityTooltip((prev) =>
-                        prev === "recommended" ? null : "recommended",
-                      )
-                    }
-                    aria-label="Recommended power"
-                  />
-                  <motion.button
-                    type="button"
-                    className={`h-full bg-red-500 ${dangerPercent >= 100 ? "rounded-full" : "rounded-r-full"} ${dangerPercent <= 0 ? "pointer-events-none" : "cursor-pointer"}`}
-                    initial={{ width: 0 }}
-                    animate={{ width: `${dangerPercent}%` }}
-                    transition={{ duration: 1, ease: "easeInOut" }}
-                    onClick={() =>
-                      setActiveCapacityTooltip((prev) =>
-                        prev === "danger" ? null : "danger",
-                      )
-                    }
-                    aria-label="Danger zone"
-                  />
-                </div>
-                <AnimatePresence>
-                  {activeCapacityTooltip === "used" && usedWatts > 0 && (
-                    <motion.div
-                      className="pointer-events-none absolute -top-10 -translate-x-1/2 rounded-md border border-white/15 bg-background-dark/95 px-2 py-1 text-[10px] font-bold text-white shadow-lg"
-                      style={{ left: `${usedTooltipLeft}%` }}
-                      initial={{ opacity: 0, y: 6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 6 }}
-                      transition={{ duration: 0.15 }}
-                    >
-                      Power used: {usedWatts}W
-                    </motion.div>
-                  )}
-                  {activeCapacityTooltip === "recommended" &&
-                    recommendedWatts > 0 && (
-                      <motion.div
-                        className="pointer-events-none absolute -top-10 -translate-x-1/2 rounded-md border border-white/15 bg-background-dark/95 px-2 py-1 text-[10px] font-bold text-white shadow-lg"
-                        style={{ left: `${recommendedTooltipLeft}%` }}
-                        initial={{ opacity: 0, y: 6 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 6 }}
-                        transition={{ duration: 0.15 }}
-                      >
-                        Recommended power: {recommendedWatts}W
-                      </motion.div>
-                    )}
-                  {activeCapacityTooltip === "danger" && dangerZoneWatts > 0 && (
-                    <motion.div
-                      className="pointer-events-none absolute -top-10 -translate-x-1/2 rounded-md border border-white/15 bg-background-dark/95 px-2 py-1 text-[10px] font-bold text-white shadow-lg"
-                      style={{ left: `${dangerTooltipLeft}%` }}
-                      initial={{ opacity: 0, y: 6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 6 }}
-                      transition={{ duration: 0.15 }}
-                    >
-                      Danger zone: {rawDangerZoneWatts}W
-                      </motion.div>
-                    )}
-                </AnimatePresence>
+              <ElectricalCapacityBar
+                alternatorOutput={capacity.alternatorOutput}
+                stockLoad={capacity.stockLoad}
+                existingLoad={state.existingLoad}
+                recommendedWatts={capacity.recommendedMax}
+                statusLabel={capacity.status}
+              />
+              <div className="mt-4 flex justify-end">
+                <button
+                  type="button"
+                  className="inline-flex items-center gap-1 rounded-full border border-amber-300/40 bg-amber-300/10 px-3 py-1 text-[7px] font-black tracking-[0.12em] text-amber-200 uppercase hover:bg-amber-300/20"
+                  onClick={() => setIsInaccuracyModalOpen(true)}
+                >
+                  <span className="material-symbols-outlined">
+                    warning
+                  </span>
+                  Report Inaccuracy
+                </button>
               </div>
             </div>
           </div>
@@ -445,6 +353,92 @@ export default function Step3ElectricalCapacity({
                 <button
                   className="mx-auto block cursor-pointer text-lg text-white/60 hover:text-white"
                   onClick={() => setIsRequestModalOpen(false)}
+                >
+                  ← Back to Capacity Tool
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {isInaccuracyModalOpen && (
+          <motion.div
+            className="fixed inset-0 z-50 bg-black/70 p-4 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="mx-auto h-full w-full max-w-xl overflow-y-auto rounded-2xl border border-border-dark bg-background-dark"
+              initial={{ y: 24, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 20, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <div className="flex items-center justify-between border-b border-border-dark px-4 py-4">
+                <button
+                  className="cursor-pointer rounded-full p-2 text-white/80 hover:bg-white/5"
+                  onClick={() => setIsInaccuracyModalOpen(false)}
+                >
+                  <span className="material-symbols-outlined">arrow_back</span>
+                </button>
+                <h3 className="text-2xl font-black">Report Inaccuracy</h3>
+                <div className="w-10" />
+              </div>
+
+              <div className="space-y-6 p-5">
+                <div className="space-y-3 text-center">
+                  <div className="flex items-center justify-center gap-4 text-left">
+                    <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-3xl border border-primary/40 bg-primary/15">
+                      <span className="material-symbols-outlined text-5xl text-primary">
+                        fact_check
+                      </span>
+                    </div>
+                    <h4 className="text-xl font-black leading-tight">
+                      Help us improve result accuracy.
+                    </h4>
+                  </div>
+                  <p className="text-sm text-white/65">
+                    If any value or recommendation feels incorrect, share the
+                    issue briefly. We will review and fix it quickly.
+                  </p>
+                </div>
+
+                <div className="rounded-3xl border border-border-dark bg-surface-dark p-5">
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <label className="mb-2 block text-xs font-black tracking-[0.14em] text-primary uppercase">
+                        Description
+                      </label>
+                      <textarea
+                        className="min-h-36 w-full rounded-xl border border-border-dark bg-background-dark px-4 py-3 text-white placeholder:text-white/35"
+                        placeholder="Example: My bike output looks lower than the manual value for this year/model. Please verify."
+                        value={inaccuracyDescription}
+                        onChange={(event) =>
+                          setInaccuracyDescription(event.target.value)
+                        }
+                      />
+                    </div>
+                    <p className="text-center text-sm italic text-white/50">
+                      We&apos;ll receive your note along with the current page
+                      URL for faster review.
+                    </p>
+                  </div>
+                </div>
+
+                <a
+                  href={`https://wa.me/919875646946?text=${inaccuracyText}&utm_source=moto_tool`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#25D366] py-4 text-center text-xl font-black text-white shadow-lg shadow-[#25D366]/30"
+                >
+                  Submit via WhatsApp
+                </a>
+                <button
+                  className="mx-auto block cursor-pointer text-lg text-white/60 hover:text-white"
+                  onClick={() => setIsInaccuracyModalOpen(false)}
                 >
                   ← Back to Capacity Tool
                 </button>
