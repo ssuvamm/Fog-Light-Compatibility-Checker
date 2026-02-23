@@ -9,6 +9,20 @@ const fogLightValidator = v.object({
   imageUrl: v.string(),
   rating: v.number(),
   shopUrl: v.string(),
+  priceInr: v.number(),
+  fit: v.object({
+    speed: v.record(v.string(), v.number()),
+    terrain: v.record(v.string(), v.number()),
+    fog: v.record(v.string(), v.number()),
+    beamColor: v.record(v.string(), v.number()),
+  }),
+  vision: v.object({
+    severeThreshold: v.number(),
+    maxSpeedBySeverity: v.object({
+      normal: v.number(),
+      severe: v.number(),
+    }),
+  }),
 });
 
 export const listFogLights = query({
@@ -24,6 +38,9 @@ export const listFogLights = query({
         imageUrl: row.imageUrl,
         rating: row.rating,
         shopUrl: row.shopUrl,
+        priceInr: row.priceInr,
+        fit: row.fit,
+        vision: row.vision,
       }))
       .sort((a, b) => a.name.localeCompare(b.name));
   },

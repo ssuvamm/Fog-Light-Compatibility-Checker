@@ -37,6 +37,20 @@ export default defineSchema({
     imageUrl: v.string(),
     rating: v.number(),
     shopUrl: v.string(),
+    priceInr: v.optional(v.number()),
+    fit: v.optional(v.object({
+      speed: v.record(v.string(), v.number()),
+      terrain: v.record(v.string(), v.number()),
+      fog: v.record(v.string(), v.number()),
+      beamColor: v.record(v.string(), v.number()),
+    })),
+    vision: v.optional(v.object({
+      severeThreshold: v.number(),
+      maxSpeedBySeverity: v.object({
+        normal: v.number(),
+        severe: v.number(),
+      }),
+    })),
   }).index("by_light_id", ["id"]),
   reports: defineTable({
     visitorId: v.string(),
@@ -108,6 +122,20 @@ export default defineSchema({
         imageUrl: v.string(),
         rating: v.number(),
         shopUrl: v.string(),
+        priceInr: v.optional(v.number()),
+        fit: v.optional(v.object({
+          speed: v.record(v.string(), v.number()),
+          terrain: v.record(v.string(), v.number()),
+          fog: v.record(v.string(), v.number()),
+          beamColor: v.record(v.string(), v.number()),
+        })),
+        vision: v.optional(v.object({
+          severeThreshold: v.number(),
+          maxSpeedBySeverity: v.object({
+            normal: v.number(),
+            severe: v.number(),
+          }),
+        })),
       }),
     ),
     createdAt: v.number(),
